@@ -4,7 +4,10 @@ import User from "../models/userModel";
 import bcrypt from "bcryptjs";
 
 // Sign up
-export const authRegister = async (req: Request, res: Response) => {
+export const authRegister = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   const { name, email, password }: IUser = req.body;
 
   if (password.trim().length < 8) {

@@ -7,6 +7,9 @@ import cors from "cors";
 // utils import
 import connectDB from "./utils/config";
 
+// Routes Import
+import authRoute from "./routes/authRouter";
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -14,6 +17,9 @@ app.use(express.json());
 app.get("/", async (req: Request, res: Response) => {
   res.send("Hello World. (TypeScript)");
 });
+
+// Register an account
+app.use("/api/auth", authRoute);
 
 const PORT = process.env.PORT || 3000;
 
