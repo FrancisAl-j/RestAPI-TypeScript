@@ -4,6 +4,9 @@ dotenv.config();
 import express, { Request, Response } from "express";
 import cors from "cors";
 
+// utils import
+import connectDB from "./utils/config";
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -16,4 +19,5 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Listening to port http://localhost:${PORT}`);
+  connectDB();
 });
