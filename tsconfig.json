@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "rootDir": "./server",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true // Necessary for import if this is not here it will cause an error
+  }
+}
