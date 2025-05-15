@@ -3,6 +3,7 @@ dotenv.config();
 
 import express, { Request, Response } from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 // utils import
 import connectDB from "./utils/config";
@@ -13,6 +14,7 @@ import authRoute from "./routes/authRouter";
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/", async (req: Request, res: Response) => {
   res.send("Hello World. (TypeScript)");
