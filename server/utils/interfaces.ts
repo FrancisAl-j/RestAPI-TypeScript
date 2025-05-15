@@ -1,11 +1,18 @@
-export interface IUser {
+import { Document, Types } from "mongoose";
+
+export interface IUser extends Document {
+  _id: Types.ObjectId | string;
   name: string;
   email: string;
   password: string;
+
+  // for timestamps: true
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export type Payload = {
-  _id: string;
+  _id: Types.ObjectId | string;
   email: string;
   name: string;
 };

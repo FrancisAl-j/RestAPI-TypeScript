@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { IUser } from "../utils/interfaces";
 import User from "../models/userModel";
 import bcrypt from "bcryptjs";
+import { Payload } from "../utils/interfaces";
+import { generateToken } from "../utils/generateToken";
 
 // Sign up
 export const authRegister = async (
@@ -43,6 +45,37 @@ export const authSignin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
+    if (!user) {
+      res.status(401).json({
+        message: "Invalid credentials, please check your email and password.",
+      });
+
+      return;
+    }
+
+    const checkPassword: boolean = bcrypt.compareSync(password, user.password);
+    if (!checkPassword) {
+      res.status(401).json({
+        message: "Invalid credentials, please check your email and password.",
+      });
+
+      return;
+    }
+    const userObject = user.toObject() as IUser;
+
+    // Creating a payload, this can be use to retrieve or to check for user
+    const payload: Payload = {
+      _id: userObject._id,
+      email: user.email,
+      name: user.name,
+    };
+
+    // Generating token...
+    generateToken(payload, res);
+
+    const { password: hashedPassword, ...rest } = userObject;
+
+    res.status(200).json(rest);
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
