@@ -3,3 +3,9 @@ export interface IUser {
   email: string;
   password: string;
 }
+
+export type Payload = {
+  _id: string;
+  email: string;
+  name: string;
+};

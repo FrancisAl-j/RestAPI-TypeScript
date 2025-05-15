@@ -11,6 +11,7 @@ export const authRegister = async (
   const { name, email, password }: IUser = req.body;
 
   if (password.trim().length < 8) {
+    // Don't do this -> return res.status(400).json({ message: "Password should be 8 characters long." }); it will cause an error on typescript since this is a return type
     res.status(400).json({ message: "Password should be 8 characters long." });
     return;
   }
@@ -26,6 +27,22 @@ export const authRegister = async (
     await newUser.save();
 
     res.status(201).json({ message: "Create an account." });
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+      return;
+    } else {
+      res.status(500).json({ message: "An unknown error occurred." });
+      return;
+    }
+  }
+};
+
+// Signin
+export const authSignin = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
