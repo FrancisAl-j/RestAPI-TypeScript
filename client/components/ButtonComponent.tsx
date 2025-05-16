@@ -7,6 +7,9 @@ type ButtonProps = {
 };
 
 const ButtonComponent = ({ text, to }: ButtonProps) => {
+  const types = {
+    signin: "",
+  };
   return (
     <Link href={`/${to}`}>
       <button>{text}</button>
