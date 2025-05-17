@@ -1,13 +1,20 @@
 import React from "react";
 import Nav from "./components/Nav";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Signin from "./pages/Signin";
 
 const App = () => {
   return (
     <Router>
-      <div>
+      <div className="w-full">
         <Nav />
-        <h1 className="text-2xl text-blue-700">Hello world!</h1>
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signin" element={<Signin />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   );

@@ -1,13 +1,16 @@
 import Button from "./Button";
 import Logo from "../assets/logo.png";
+import { Link } from "react-router-dom";
 
 const Nav = () => {
   return (
-    <header>
-      <nav>
-        <img className="" src={Logo} alt="" />
+    <header className="w-full bg-[#f2c078] py-3 shadow-xl">
+      <nav className="main-container  flex items-center justify-between">
+        <img src={Logo} alt="" className="w-[200px] aspect-[5/2] " />
 
-        <Button type="sigin">Sign in</Button>
+        <Link to="/signin">
+          <Button type="signin">Sign in</Button>
+        </Link>
       </nav>
     </header>
   );
