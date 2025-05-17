@@ -7,11 +7,6 @@ type ButtonProps = {
   children: React.ReactNode;
 };
 
-type ButtonTypes = {
-  signin: string;
-  default: string;
-};
-
 const Button = ({ type, path, func, children }: ButtonProps): JSX.Element => {
   const buttonTypes: Record<string, string> = {
     signin: "py-2 px-6 bg-[#c1dbb3] cursor-pointer rounded-2xl",

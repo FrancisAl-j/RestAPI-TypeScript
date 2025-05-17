@@ -6,5 +6,7 @@
     "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true // Necessary for import if this is not here it will cause an error
-  }
+  },
+  "include": ["server/**/*"],
+  "exclude": ["node_modules", "client"]
 }
