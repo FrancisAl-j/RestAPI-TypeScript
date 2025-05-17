@@ -3,7 +3,7 @@ import type { SignupType } from "../Types";
 import axios from "axios";
 import { auth } from "../api/authAPI";
 
-export const Signup = createAsyncThunk(
+export const SignupThunk = createAsyncThunk(
   "user/signup",
   async (formData: SignupType, { rejectWithValue }) => {
     try {

@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { SignupThunk } from "../thunks/authThunks";
 
 type UserState = {
   user: {
@@ -9,7 +11,7 @@ type UserState = {
     updatedAt?: Date;
   } | null;
   isSigningup: boolean;
-  isSigniningin: boolean;
+  isSigningin: boolean;
   error: string | null;
   message: string | null;
 };
@@ -17,7 +19,7 @@ type UserState = {
 const initialState: UserState = {
   user: null,
   isSigningup: false,
-  isSigniningin: false,
+  isSigningin: false,
   error: null,
   message: null,
 };
@@ -26,6 +28,21 @@ export const authSlice = createSlice({
   name: "user",
   initialState,
   reducers: {},
+
+  extraReducers: (builder) => {
+    builder.addCase(SignupThunk.pending, (state) => {
+      state.isSigningup = true;
+      state.error = null;
+    });
+    builder.addCase(SignupThunk.fulfilled, (state) => {
+      state.isSigningup = false;
+      state.error = null;
+    });
+    builder.addCase(SignupThunk.rejected, (state, action: any) => {
+      state.isSigningup = false;
+      state.error = action.payload;
+    });
+  },
 });
 
 export default authSlice.reducer;

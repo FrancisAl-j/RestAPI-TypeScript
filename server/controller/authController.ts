@@ -12,6 +12,22 @@ export const authRegister = async (
 ): Promise<void> => {
   const { name, email, password }: IUser = req.body;
 
+  if (!name) {
+    res.status(400).json({ message: "Name field required" });
+    return;
+  }
+
+  if (!email) {
+    res.status(400).json({ message: "Email field required" });
+    return;
+  }
+
+  const existingEmail = await User.findOne({ email });
+  if (existingEmail) {
+    res.status(400).json({ message: "Email already existed." });
+    return;
+  }
+
   if (password.trim().length < 8) {
     // Don't do this -> return res.status(400).json({ message: "Password should be 8 characters long." }); it will cause an error on typescript since this is a return type
     res.status(400).json({ message: "Password should be 8 characters long." });
