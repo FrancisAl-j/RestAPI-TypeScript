@@ -15,3 +15,20 @@ body {
   width: min(100% - 25px, 1400px);
   margin: auto;
 }
+
+.big-text {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: bold;
+}
+.catch-phrase {
+  font-size: clamp(1rem, 3vw, 2rem);
+  color: #fff;
+}
+.form-heading {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+}
+
+.form-container {
+  width: min(100% - 25px, 500px);
+  font-weight: 600;
+}
