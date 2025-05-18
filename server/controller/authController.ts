@@ -59,7 +59,6 @@ export const authRegister = async (
 // Signin
 export const authSignin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  console.log("Running");
 
   if (!email) {
     res.status(400).json({ message: "Email field required" });

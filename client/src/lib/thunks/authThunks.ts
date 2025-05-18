@@ -25,8 +25,6 @@ export const SigninThunk = createAsyncThunk(
   "user/signin",
   async (formData: SigninType, { rejectWithValue }) => {
     try {
-      console.log("Running");
-
       const user = await auth.signin(formData);
 
       return user;

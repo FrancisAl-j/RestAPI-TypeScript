@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+//import type { PayloadAction } from "@reduxjs/toolkit";
 import { SignupThunk, SigninThunk } from "../thunks/authThunks";
 
 type UserState = {

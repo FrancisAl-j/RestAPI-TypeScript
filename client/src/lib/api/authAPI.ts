@@ -10,7 +10,7 @@ export const auth: AuthTypes = {
         withCredentials: true,
       });
 
-      return res.data.message;
+      return res.data;
     } catch (error) {
       if (error instanceof Error) {
         throw error;
