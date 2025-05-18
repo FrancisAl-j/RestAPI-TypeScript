@@ -26,9 +26,9 @@ body {
 }
 .form-heading {
   font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 600;
 }
 
 .form-container {
   width: min(100% - 25px, 500px);
-  font-weight: 600;
 }
