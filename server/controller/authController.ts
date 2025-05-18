@@ -113,3 +113,28 @@ export const authSignin = async (req: Request, res: Response) => {
     }
   }
 };
+
+// Keeping the user logged in by checking their token/cookies
+
+interface CustomRequest extends Request {
+  user?: any;
+}
+export const checkAuth = async (req: CustomRequest, res: Response) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+    if (!user) {
+      res.status(401).json({ message: "User not authenticated." });
+      return;
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+      return;
+    } else {
+      res.status(500).json({ message: "An unknown error occurred." });
+      return;
+    }
+  }
+};
