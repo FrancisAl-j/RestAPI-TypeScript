@@ -20,8 +20,6 @@ export const auth: AuthTypes = {
 
   signup: async (formData: SignupType) => {
     try {
-      console.log(formData);
-
       const res = await axios.post(`${baseURL}/api/auth/create`, formData);
 
       return res.data;

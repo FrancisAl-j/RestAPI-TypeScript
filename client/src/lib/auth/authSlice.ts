@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { SignupThunk } from "../thunks/authThunks";
+import { SignupThunk, SigninThunk } from "../thunks/authThunks";
 
 type UserState = {
   user: {
@@ -30,6 +30,7 @@ export const authSlice = createSlice({
   reducers: {},
 
   extraReducers: (builder) => {
+    // For Signup
     builder.addCase(SignupThunk.pending, (state) => {
       state.isSigningup = true;
       state.error = null;
@@ -40,6 +41,22 @@ export const authSlice = createSlice({
     });
     builder.addCase(SignupThunk.rejected, (state, action: any) => {
       state.isSigningup = false;
+      state.error = action.payload;
+    });
+
+    // For Signin
+    builder.addCase(SigninThunk.pending, (state) => {
+      state.isSigningin = true;
+      state.error = null;
+    });
+    builder.addCase(SigninThunk.fulfilled, (state, action: any) => {
+      state.isSigningin = false;
+      state.user = action.payload;
+      state.error = null;
+    });
+    builder.addCase(SigninThunk.rejected, (state, action: any) => {
+      state.isSigningin = false;
+      state.user = null;
       state.error = action.payload;
     });
   },

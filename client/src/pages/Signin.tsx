@@ -1,12 +1,45 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
+import React, { useState, type ChangeEvent } from "react";
+import type { SigninType } from "../lib/Types";
+import { useAppDispatch, useAppSelector } from "../lib/Hook";
+import { SigninThunk } from "../lib/thunks/authThunks";
 
 const Signin = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { error, isSigningin } = useAppSelector((state) => state.user);
+  const [formData, setFormData] = useState<SigninType>({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const result = await dispatch(SigninThunk(formData));
+
+    if (SigninThunk.fulfilled.match(result)) {
+      navigate("/");
+    }
+  };
   return (
     <main className="w-full h-[100svh]">
       <section className="main-container flex h-full">
         <div className="flex-1 grid place-items-center">
-          <form className="form-container flex flex-col gap-6">
+          <form
+            onSubmit={handleSubmit}
+            className="form-container flex flex-col gap-6"
+          >
             <header className="mb-10">
               <h2 className="form-heading text-center">Sign in</h2>
             </header>
@@ -17,6 +50,8 @@ const Signin = () => {
                 type="email"
                 name="email"
                 className="border-1 p-2 rounded-xl"
+                value={formData.email}
+                onChange={handleChange}
               />
             </div>
 
@@ -26,12 +61,16 @@ const Signin = () => {
                 type="password"
                 name="password"
                 className="border-1 p-2 rounded-xl"
+                value={formData.password}
+                onChange={handleChange}
               />
             </div>
 
             <button className="bg-green-500 p-2 rounded-xl cursor-pointer">
-              Sign in
+              {isSigningin ? "Logging in..." : "Sign in"}
             </button>
+
+            {error && <p className="text-red-500">{error}</p>}
           </form>
         </div>
 
