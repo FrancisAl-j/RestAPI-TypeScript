@@ -115,10 +115,11 @@ export const authSignin = async (req: Request, res: Response) => {
 };
 
 // Keeping the user logged in by checking their token/cookies
-
+// Without this interface the Request won't recognize the "user" in req.user = user
 interface CustomRequest extends Request {
   user?: any;
 }
+
 export const checkAuth = async (req: CustomRequest, res: Response) => {
   try {
     const user = await User.findById(req.user._id).select("-password");
@@ -128,6 +129,23 @@ export const checkAuth = async (req: CustomRequest, res: Response) => {
     }
 
     res.status(200).json(user);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+      return;
+    } else {
+      res.status(500).json({ message: "An unknown error occurred." });
+      return;
+    }
+  }
+};
+
+// Log out
+export const signout = async (req: Request, res: Response) => {
+  try {
+    res.cookie("token", "", { maxAge: 0 });
+
+    res.status(200).json({ message: "Successfully logged out." });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
