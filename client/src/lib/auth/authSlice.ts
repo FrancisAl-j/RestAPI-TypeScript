@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 //import type { PayloadAction } from "@reduxjs/toolkit";
-import { SignupThunk, SigninThunk } from "../thunks/authThunks";
+import { SignupThunk, SigninThunk, CheckAuthThunk } from "../thunks/authThunks";
 
 type UserState = {
   user: {
@@ -12,6 +12,7 @@ type UserState = {
   } | null;
   isSigningup: boolean;
   isSigningin: boolean;
+  isChecking: boolean;
   error: string | null;
   message: string | null;
 };
@@ -20,6 +21,7 @@ const initialState: UserState = {
   user: null,
   isSigningup: false,
   isSigningin: false,
+  isChecking: false,
   error: null,
   message: null,
 };
@@ -56,6 +58,23 @@ export const authSlice = createSlice({
     });
     builder.addCase(SigninThunk.rejected, (state, action: any) => {
       state.isSigningin = false;
+      state.user = null;
+      state.error = action.payload;
+    });
+
+    // For Check Authentication
+    builder.addCase(CheckAuthThunk.pending, (state) => {
+      state.isChecking = true;
+      state.user = null;
+      state.error = null;
+    });
+    builder.addCase(CheckAuthThunk.fulfilled, (state, action: any) => {
+      state.isChecking = false;
+      state.user = action.payload;
+      state.error = null;
+    });
+    builder.addCase(CheckAuthThunk.rejected, (state, action: any) => {
+      state.isChecking = false;
       state.user = null;
       state.error = action.payload;
     });

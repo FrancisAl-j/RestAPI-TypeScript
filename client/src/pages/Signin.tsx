@@ -14,6 +14,13 @@ const Signin = () => {
     password: "",
   });
 
+  const [visited, setVisited] = useState(0);
+
+  const value = localStorage.getItem("visited");
+  if (typeof value === "string") {
+    setVisited(Number(JSON.parse(value)));
+  }
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 

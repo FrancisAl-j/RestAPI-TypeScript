@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "./components/Nav";
 import {
   BrowserRouter as Router,
@@ -9,10 +9,21 @@ import {
 import Home from "./pages/Home";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
-import { useAppSelector } from "./lib/Hook";
+import { useAppSelector, useAppDispatch } from "./lib/Hook";
+import Loading from "./components/Loading";
+import { CheckAuthThunk } from "./lib/thunks/authThunks";
 
 const App = () => {
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(CheckAuthThunk());
+  }, [dispatch]);
+
+  if (!user) {
+    return <Loading />;
+  }
 
   return (
     <Router>
