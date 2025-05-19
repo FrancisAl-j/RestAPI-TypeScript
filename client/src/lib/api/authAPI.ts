@@ -51,7 +51,13 @@ export const auth: AuthTypes = {
 
   logout: async () => {
     try {
-      const res = await axios.post(`${baseURL}/api/auth/logout`);
+      const res = await axios.post(
+        `${baseURL}/api/auth/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
 
       return res.data;
     } catch (error) {

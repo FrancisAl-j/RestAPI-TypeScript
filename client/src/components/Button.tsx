@@ -15,7 +15,10 @@ const Button = ({ type, path, func, children }: ButtonProps): JSX.Element => {
     default: "py-2 px-6 bg-[#c1dbb3] cursor-pointer rounded-2xl",
   };
   return (
-    <button className={`${buttonTypes[type] || buttonTypes.default}`}>
+    <button
+      onClick={func}
+      className={`${buttonTypes[type] || buttonTypes.default}`}
+    >
       {children}
     </button>
   );

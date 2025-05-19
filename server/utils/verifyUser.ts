@@ -17,6 +17,7 @@ export const verifyUser = async (
   // Checks if there is a token
   if (!token) {
     res.status(401).json({ message: "User not authenticated." });
+    return;
   }
 
   try {
@@ -33,6 +34,7 @@ export const verifyUser = async (
       return;
     } else {
       res.status(500).json({ message: "An unknown error occurred." });
+      return;
     }
   }
 };

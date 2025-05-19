@@ -15,13 +15,13 @@ import { CheckAuthThunk } from "./lib/thunks/authThunks";
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.user);
+  const { user, isChecking } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(CheckAuthThunk());
   }, [dispatch]);
 
-  if (!user) {
+  if (isChecking && !user) {
     return <Loading />;
   }
 

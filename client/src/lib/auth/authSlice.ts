@@ -85,7 +85,7 @@ export const authSlice = createSlice({
     });
 
     //For Logout
-    builder.addCase(LogoutThunk.fulfilled, (state, action: any) => {
+    builder.addCase(LogoutThunk.fulfilled, (state) => {
       state.user = null;
       state.error = null;
     });

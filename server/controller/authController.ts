@@ -143,6 +143,8 @@ export const checkAuth = async (req: CustomRequest, res: Response) => {
 // Log out
 export const signout = async (req: Request, res: Response) => {
   try {
+    console.log("Running");
+
     res.cookie("token", "", { maxAge: 0 });
 
     res.status(200).json({ message: "Successfully logged out." });
