@@ -13,4 +13,5 @@ export type AuthTypes = {
   signin: (formData: SigninType) => void;
   signup: (formData: SignupType) => void;
   checkAuth: () => void;
+  logout: () => void;
 };

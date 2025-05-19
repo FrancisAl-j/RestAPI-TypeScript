@@ -48,4 +48,16 @@ export const auth: AuthTypes = {
       } else console.log("Unknonw error has occured.");
     }
   },
+
+  logout: async () => {
+    try {
+      const res = await axios.post(`${baseURL}/api/auth/logout`);
+
+      return res.data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      } else console.log("Unknonw error has occured.");
+    }
+  },
 };

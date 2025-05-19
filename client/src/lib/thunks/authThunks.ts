@@ -60,3 +60,19 @@ export const CheckAuthThunk = createAsyncThunk(
     }
   }
 );
+
+// For Logout Thunks
+export const LogoutThunk = createAsyncThunk(
+  "user/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Log out failed."
+        );
+      }
+      return rejectWithValue("Log out failed.");
+    }
+  }
+);

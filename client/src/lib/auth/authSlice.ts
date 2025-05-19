@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 //import type { PayloadAction } from "@reduxjs/toolkit";
-import { SignupThunk, SigninThunk, CheckAuthThunk } from "../thunks/authThunks";
+import {
+  SignupThunk,
+  SigninThunk,
+  CheckAuthThunk,
+  LogoutThunk,
+} from "../thunks/authThunks";
 
 type UserState = {
   user: {
@@ -76,6 +81,15 @@ export const authSlice = createSlice({
     builder.addCase(CheckAuthThunk.rejected, (state, action: any) => {
       state.isChecking = false;
       state.user = null;
+      state.error = action.payload;
+    });
+
+    //For Logout
+    builder.addCase(LogoutThunk.fulfilled, (state, action: any) => {
+      state.user = null;
+      state.error = null;
+    });
+    builder.addCase(LogoutThunk.rejected, (state, action: any) => {
       state.error = action.payload;
     });
   },
