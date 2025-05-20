@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
-import React, { useState, type ChangeEvent } from "react";
+import React, { useEffect, useState, type ChangeEvent } from "react";
 import type { SigninType } from "../lib/Types";
 import { useAppDispatch, useAppSelector } from "../lib/Hook";
 import { SigninThunk } from "../lib/thunks/authThunks";
@@ -16,10 +16,12 @@ const Signin = () => {
 
   const [visited, setVisited] = useState(0);
 
-  const value = localStorage.getItem("visited");
-  if (typeof value === "string") {
-    setVisited(Number(JSON.parse(value)));
-  }
+  useEffect(() => {
+    const value = localStorage.getItem("visited");
+    if (typeof value === "string") {
+      setVisited(Number(JSON.parse(value)));
+    }
+  });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -84,7 +86,7 @@ const Signin = () => {
         <div className="flex-1 grid place-items-center bg-[#fe5d26]">
           <div className="flex flex-col items-center gap-5">
             <h1 className="big-text text-white text-center">
-              Welcome to Yapster
+              {visited === 0 ? "Welcome to Yapster" : "Welcome back"}
             </h1>
             <p className="catch-phrase text-center">
               Yap it out loud - with Yapster
