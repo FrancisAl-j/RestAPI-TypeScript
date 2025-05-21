@@ -11,6 +11,16 @@ export interface IUser extends Document {
   updatedAt?: Date;
 }
 
+export interface IMessage extends Document {
+  _id: Types.ObjectId | string;
+  message: string;
+  senderId: Types.ObjectId | string;
+  receiverId: Types.ObjectId | string;
+  image: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 export type Payload = {
   _id: Types.ObjectId | string;
   email: string;
