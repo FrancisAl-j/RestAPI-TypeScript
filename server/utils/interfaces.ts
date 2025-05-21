@@ -1,4 +1,5 @@
 import { Document, Types } from "mongoose";
+import { Request } from "express";
 
 export interface IUser extends Document {
   _id: Types.ObjectId | string;
@@ -26,3 +27,8 @@ export type Payload = {
   email: string;
   name: string;
 };
+
+// TO allow req.user to work
+export interface CustomRequest extends Request {
+  user?: any;
+}
