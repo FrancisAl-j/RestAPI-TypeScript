@@ -16,6 +16,11 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+      default:
+        "https://firebasestorage.googleapis.com/v0/b/mern-auth-8d5cf.appspot.com/o/profile.jpg?alt=media&token=4df25a9f-59e0-4e0e-a4f4-d82e4767f694",
+    },
   },
   {
     timestamps: true,

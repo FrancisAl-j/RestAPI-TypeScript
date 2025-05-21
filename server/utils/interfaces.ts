@@ -6,6 +6,7 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  image: string;
 
   // for timestamps: true
   createdAt?: Date;

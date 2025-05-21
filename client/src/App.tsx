@@ -12,6 +12,7 @@ import Signup from "./pages/Signup";
 import { useAppSelector, useAppDispatch } from "./lib/Hook";
 import Loading from "./components/Loading";
 import { CheckAuthThunk } from "./lib/thunks/authThunks";
+import Sidebar from "./components/Sidebar";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -29,22 +30,26 @@ const App = () => {
     <Router>
       <div className="w-full">
         <Nav />
-        <main>
-          <Routes>
-            <Route
-              path="/"
-              element={user ? <Home /> : <Navigate to="/signin" />}
-            />
-            <Route
-              path="/signin"
-              element={user ? <Navigate to="/" /> : <Signin />}
-            />
-            <Route
-              path="/signup"
-              element={user ? <Navigate to="/" /> : <Signup />}
-            />
-          </Routes>
-        </main>
+
+        <div className="flex">
+          <Sidebar />
+          <main className="flex-1">
+            <Routes>
+              <Route
+                path="/"
+                element={user ? <Home /> : <Navigate to="/signin" />}
+              />
+              <Route
+                path="/signin"
+                element={user ? <Navigate to="/" /> : <Signin />}
+              />
+              <Route
+                path="/signup"
+                element={user ? <Navigate to="/" /> : <Signup />}
+              />
+            </Routes>
+          </main>
+        </div>
       </div>
     </Router>
   );
