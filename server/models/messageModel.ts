@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 import { IMessage } from "../utils/interfaces";
 
 const messageSchema = new Schema<IMessage>(
@@ -19,3 +19,7 @@ const messageSchema = new Schema<IMessage>(
     timestamps: true,
   }
 );
+
+const Message = mongoose.model<IMessage>("message", messageSchema);
+
+export default Message;
