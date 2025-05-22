@@ -32,7 +32,8 @@ const App = () => {
         <Nav />
 
         <div className="flex">
-          <Sidebar />
+          {user && <Sidebar />}
+
           <main className="flex-1">
             <Routes>
               <Route
