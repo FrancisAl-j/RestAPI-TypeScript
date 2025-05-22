@@ -23,4 +23,5 @@ export interface IMessage {
     updatedAt: Date;
   }[];
   isLoading: boolean;
+  error: string | null;
 }

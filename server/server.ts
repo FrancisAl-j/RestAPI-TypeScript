@@ -10,6 +10,7 @@ import connectDB from "./utils/config";
 
 // Routes Import
 import authRoute from "./routes/authRouter";
+import messageRoute from "./routes/messageRoute";
 
 const app = express();
 app.use(
@@ -27,6 +28,7 @@ app.get("/", async (req: Request, res: Response) => {
 
 // Register an account
 app.use("/api/auth", authRoute);
+app.use("/api/message", messageRoute);
 
 const PORT = process.env.PORT || 3000;
 

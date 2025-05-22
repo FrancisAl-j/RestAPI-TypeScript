@@ -13,12 +13,14 @@ import { useAppSelector, useAppDispatch } from "./lib/Hook";
 import Loading from "./components/Loading";
 import { CheckAuthThunk } from "./lib/thunks/authThunks";
 import Sidebar from "./components/Sidebar";
+import { GetUsers } from "./lib/thunks/messageThunks";
 
 const App = () => {
   const dispatch = useAppDispatch();
   const { user, isChecking } = useAppSelector((state) => state.user);
 
   useEffect(() => {
+    dispatch(GetUsers());
     dispatch(CheckAuthThunk());
   }, [dispatch]);
 
