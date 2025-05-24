@@ -14,6 +14,7 @@ import Loading from "./components/Loading";
 import { CheckAuthThunk } from "./lib/thunks/authThunks";
 import Sidebar from "./components/Sidebar";
 import { GetUsers } from "./lib/thunks/messageThunks";
+import ChatContainer from "./components/ChatContainer";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -36,7 +37,8 @@ const App = () => {
 
   return (
     <Router>
-      <div className="w-full">
+      <div className="w-full relative">
+        <ChatContainer />
         <Nav />
 
         <div className="flex">

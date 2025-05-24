@@ -11,6 +11,10 @@ body {
   background: var(--background);
 }
 
+* {
+  outline: 1px dotted red;
+}
+
 .main-container {
   width: min(100% - 25px, 1400px);
   margin: auto;
@@ -31,4 +35,13 @@ body {
 
 .form-container {
   width: min(100% - 25px, 500px);
+}
+
+.chat-box {
+  height: 350px;
+  width: 320px;
+  background: #fff;
+  position: fixed;
+  bottom: 0;
+  right: 2%;
 }
