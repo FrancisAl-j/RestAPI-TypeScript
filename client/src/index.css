@@ -11,10 +11,6 @@ body {
   background: var(--background);
 }
 
-* {
-  outline: 1px dotted red;
-}
-
 .main-container {
   width: min(100% - 25px, 1400px);
   margin: auto;
