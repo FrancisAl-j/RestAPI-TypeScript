@@ -1,11 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { IMessage } from "./Interface";
 import { GetUsers } from "../thunks/messageThunks";
+import type { User } from "./Interface";
 
 const initialState: IMessage = {
   users: [],
   currUser: null,
   messages: [],
+  isMessagesLoaidng: false,
   isLoading: false,
   error: null,
 };
@@ -13,7 +15,16 @@ const initialState: IMessage = {
 export const messageSlice = createSlice({
   name: "message",
   initialState,
-  reducers: {},
+  reducers: {
+    chooseUser: (state, action: PayloadAction<User>) => {
+      state.currUser = action.payload;
+    },
+    removeUser: (state) => {
+      state.currUser = null;
+    },
+  },
+
+  // extraReducers for thunks
   extraReducers: (builder) => {
     builder.addCase(GetUsers.pending, (state) => {
       state.isLoading = true;
@@ -33,3 +44,5 @@ export const messageSlice = createSlice({
 });
 
 export default messageSlice.reducer;
+
+export const { chooseUser } = messageSlice.actions;

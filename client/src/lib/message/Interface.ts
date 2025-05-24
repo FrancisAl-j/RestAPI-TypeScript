@@ -1,20 +1,14 @@
+export type User = {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
 export interface IMessage {
-  users: {
-    _id: string;
-    name: string;
-    email: string;
-    image: string;
-    createdAt: Date;
-    updatedAt: Date;
-  }[];
-  currUser: {
-    _id: string;
-    name: string;
-    email: string;
-    image: string;
-    createdAt: Date;
-    updatedAt: Date;
-  } | null;
+  users: User[];
+  currUser: User | null;
   messages: {
     message: string;
     receiverId: string;
@@ -22,6 +16,7 @@ export interface IMessage {
     createdAt: Date;
     updatedAt: Date;
   }[];
+  isMessagesLoaidng: boolean;
   isLoading: boolean;
   error: string | null;
 }

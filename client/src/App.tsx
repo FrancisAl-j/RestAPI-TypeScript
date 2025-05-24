@@ -20,8 +20,14 @@ const App = () => {
   const { user, isChecking } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(GetUsers());
-    dispatch(CheckAuthThunk());
+    const init = async () => {
+      const result = await dispatch(CheckAuthThunk());
+      if (CheckAuthThunk.fulfilled.match(result)) {
+        dispatch(GetUsers());
+      }
+    };
+
+    init();
   }, [dispatch]);
 
   if (isChecking && !user) {
