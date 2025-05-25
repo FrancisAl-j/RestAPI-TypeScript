@@ -45,4 +45,4 @@ export const messageSlice = createSlice({
 
 export default messageSlice.reducer;
 
-export const { chooseUser } = messageSlice.actions;
+export const { chooseUser, removeUser } = messageSlice.actions;

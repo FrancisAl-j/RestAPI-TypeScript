@@ -19,6 +19,7 @@ import ChatContainer from "./components/chatComponent/ChatContainer";
 const App = () => {
   const dispatch = useAppDispatch();
   const { user, isChecking } = useAppSelector((state) => state.user);
+  const { currUser } = useAppSelector((state) => state.message);
 
   useEffect(() => {
     const init = async () => {
@@ -38,7 +39,8 @@ const App = () => {
   return (
     <Router>
       <div className="w-full relative">
-        <ChatContainer />
+        {currUser && <ChatContainer />}
+
         <Nav />
 
         <div className="flex">

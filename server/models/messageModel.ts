@@ -6,6 +6,9 @@ const messageSchema = new Schema<IMessage>(
     message: {
       type: String,
     },
+    image: {
+      type: String,
+    },
     receiverId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",

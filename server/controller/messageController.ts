@@ -5,7 +5,7 @@ import { CustomRequest } from "../utils/interfaces";
 
 // Sending or creating new messages
 export const createMessage = async (req: CustomRequest, res: Response) => {
-  const { message, receiverId } = req.body;
+  const { message, receiverId, image } = req.body;
   try {
     const user = await User.findById(req.user._id);
     if (!user) {
@@ -16,6 +16,7 @@ export const createMessage = async (req: CustomRequest, res: Response) => {
     const newMessage = new Message({
       message,
       receiverId,
+      image,
       senderId: user._id,
     });
 

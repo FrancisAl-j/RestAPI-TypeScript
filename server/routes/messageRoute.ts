@@ -1,8 +1,11 @@
 import { Router } from "express";
-import { getUsers } from "../controller/messageController";
+import { createMessage, getUsers } from "../controller/messageController";
 import { verifyUser } from "../utils/verifyUser";
 
 const router = Router();
+
+// Post
+router.post("/create", verifyUser, createMessage);
 
 // Get
 router.get("/get-users", verifyUser, getUsers);

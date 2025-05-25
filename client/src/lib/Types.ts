@@ -9,9 +9,20 @@ export type SignupType = {
   password: string;
 };
 
+export type MessageType = {
+  sendMessage: ({ message, receiverId, image }: IMessageData) => void;
+  getUsers: () => void;
+};
+
 export type AuthTypes = {
   signin: (formData: SigninType) => void;
   signup: (formData: SignupType) => void;
   checkAuth: () => void;
   logout: () => void;
 };
+
+export interface IMessageData {
+  message: string;
+  receiverId: string;
+  image: string;
+}
