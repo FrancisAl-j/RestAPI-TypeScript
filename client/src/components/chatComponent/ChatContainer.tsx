@@ -1,6 +1,6 @@
-import { useAppSelector } from "../lib/Hook";
-import Full from "../assets/addfullscreen.svg";
-import Close from "../assets/close.svg";
+import { useAppSelector } from "../../lib/Hook";
+import Full from "../../assets/addfullscreen.svg";
+import Close from "../../assets/close.svg";
 
 const ChatContainer = () => {
   const { currUser } = useAppSelector((state) => state.message);
