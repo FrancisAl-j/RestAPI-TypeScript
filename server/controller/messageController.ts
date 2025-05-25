@@ -57,3 +57,30 @@ export const getUsers = async (req: CustomRequest, res: Response) => {
     }
   }
 };
+
+// Fetch message
+export const getMessages = async (req: CustomRequest, res: Response) => {
+  const { receiverId } = req.body;
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      res.status(401).json({ message: "User not authenticated." });
+      return;
+    }
+
+    const messages = await Message.find({
+      receiverId,
+      senderId: user._id,
+    });
+
+    res.status(200).json(messages);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+      return;
+    } else {
+      res.status(500).json({ message: "An unknown error occurred." });
+      return;
+    }
+  }
+};
