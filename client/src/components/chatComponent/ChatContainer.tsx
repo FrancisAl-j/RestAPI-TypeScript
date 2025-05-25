@@ -16,11 +16,15 @@ const ChatContainer = () => {
   return (
     <aside className="chat-box flex flex-col rounded-2xl overflow-hidden">
       <header className="bg-[#f2c078] p-1 flex justify-between items-center">
-        <img
-          src={currUser?.image}
-          alt=""
-          className="aspect-square w-9 rounded-full"
-        />
+        <div className="flex items-center gap-3">
+          <img
+            src={currUser?.image}
+            alt=""
+            className="aspect-square w-9 rounded-full"
+          />
+
+          <h1 className="capitalize font-semibold">{currUser?.name}</h1>
+        </div>
 
         <div className="flex items-center gap-2">
           <img src={Full} alt="" className="w-6 aspect-square cursor-pointer" />
