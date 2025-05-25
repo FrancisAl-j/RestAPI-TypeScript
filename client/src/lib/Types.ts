@@ -12,6 +12,7 @@ export type SignupType = {
 export type MessageType = {
   sendMessage: ({ message, receiverId, image }: IMessageData) => void;
   getUsers: () => void;
+  getMessages: ({ id }: { id: string }) => void;
 };
 
 export type AuthTypes = {

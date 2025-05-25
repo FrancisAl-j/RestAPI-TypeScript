@@ -4,6 +4,8 @@ import Close from "../../assets/close.svg";
 import ChatBody from "./ChatBody";
 import ChatInput from "./ChatInput";
 import { removeUser } from "../../lib/message/messageSlice";
+import { useEffect } from "react";
+import { GetMessages } from "../../lib/thunks/messageThunks";
 
 const ChatContainer = () => {
   const dispatch = useAppDispatch();
@@ -12,6 +14,16 @@ const ChatContainer = () => {
   const handleRemoveUser = async () => {
     await dispatch(removeUser());
   };
+
+  useEffect(() => {
+    const init = async () => {
+      if (currUser) {
+        await dispatch(GetMessages({ id: currUser._id }));
+      }
+    };
+
+    init();
+  }, [dispatch]);
 
   return (
     <aside className="chat-box flex flex-col rounded-2xl overflow-hidden">

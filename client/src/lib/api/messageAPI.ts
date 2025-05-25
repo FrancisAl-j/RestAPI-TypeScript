@@ -26,6 +26,20 @@ export const messageAPI: MessageType = {
     }
   },
 
+  getMessages: async ({ id }: { id: string }) => {
+    try {
+      const res = await axios.get(`${baseURL}/api/message/get-messages/${id}`, {
+        withCredentials: true,
+      });
+
+      return res.data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error.message;
+      } else console.log("Unknonw error has occured.");
+    }
+  },
+
   getUsers: async () => {
     try {
       const res = await axios.get(`${baseURL}/api/message/get-users`, {

@@ -60,7 +60,7 @@ export const getUsers = async (req: CustomRequest, res: Response) => {
 
 // Fetch message
 export const getMessages = async (req: CustomRequest, res: Response) => {
-  const { receiverId } = req.body;
+  const { id } = req.params;
   try {
     const user = await User.findById(req.user._id);
     if (!user) {
@@ -69,8 +69,16 @@ export const getMessages = async (req: CustomRequest, res: Response) => {
     }
 
     const messages = await Message.find({
-      receiverId,
-      senderId: user._id,
+      $or: [
+        {
+          senderId: user._id,
+          receiverId: id,
+        },
+        {
+          senderId: id,
+          receiverId: user._id,
+        },
+      ],
     });
 
     res.status(200).json(messages);

@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { IMessage } from "./Interface";
-import { GetUsers, SendMessage } from "../thunks/messageThunks";
+import { GetMessages, GetUsers, SendMessage } from "../thunks/messageThunks";
 import type { User } from "./Interface";
 
 const initialState: IMessage = {
@@ -53,6 +53,23 @@ export const messageSlice = createSlice({
     });
     builder.addCase(SendMessage.rejected, (state, action: any) => {
       state.isMessagesLoaidng = true;
+      state.messages = [];
+      state.error = action.payload;
+    });
+
+    // Fetching messages
+    builder.addCase(GetMessages.pending, (state) => {
+      state.isLoading = true;
+      state.messages = [];
+      state.error = null;
+    });
+    builder.addCase(GetMessages.fulfilled, (state, action: any) => {
+      state.isLoading = false;
+      state.messages = action.payload;
+      state.error = null;
+    });
+    builder.addCase(GetMessages.rejected, (state, action: any) => {
+      state.isLoading = false;
       state.messages = [];
       state.error = action.payload;
     });

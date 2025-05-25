@@ -27,6 +27,25 @@ export const SendMessage = createAsyncThunk(
   }
 );
 
+export const GetMessages = createAsyncThunk(
+  "message/get-messages",
+  async ({ id }: { id: string }, { rejectWithValue }) => {
+    try {
+      const messages = await messageAPI.getMessages({ id });
+
+      return messages;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message ||
+            "There was a problem fetching a message."
+        );
+      }
+      return rejectWithValue("Unknown error occured.");
+    }
+  }
+);
+
 export const GetUsers = createAsyncThunk(
   "message/users",
   async (_, { rejectWithValue }) => {
