@@ -10,10 +10,6 @@ const ChatInput = ({ _id }: { _id: string }) => {
   const [message, setMessage] = useState("");
   const [image, setImage] = useState("");
 
-  useEffect(() => {
-    console.log("Hello!");
-  });
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
   };

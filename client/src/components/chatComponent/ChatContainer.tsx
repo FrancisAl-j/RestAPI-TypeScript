@@ -23,7 +23,7 @@ const ChatContainer = () => {
     };
 
     init();
-  }, [dispatch]);
+  }, [dispatch, currUser]);
 
   return (
     <aside className="chat-box flex flex-col rounded-2xl overflow-hidden">
