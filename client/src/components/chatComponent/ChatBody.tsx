@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useAppSelector } from "../../lib/Hook";
 
 type Message = {
@@ -10,13 +11,28 @@ type Message = {
 const ChatBody = () => {
   const { messages } = useAppSelector((state) => state.message);
 
+  // The code below will allow the message to scroll from bottom to top
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
-    <main className="flex-1">
+    <main
+      ref={chatContainerRef}
+      className="overflow-y-scroll flex flex-col-reverse gap-2 p-2 flex-1"
+    >
       {messages &&
-        messages.map((data: Message, index: number) => {
+        [...messages].reverse().map((data: Message, index: number) => {
           return (
-            <div key={index}>
-              <h1>{data.message}</h1>
+            <div key={index} className="receiver">
+              <div>
+                <h1>{data.message}</h1>
+              </div>
             </div>
           );
         })}

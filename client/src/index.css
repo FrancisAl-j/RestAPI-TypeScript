@@ -41,3 +41,21 @@ body {
   bottom: 0;
   right: 2%;
 }
+
+/* Chat CSS */
+.sender {
+  background: var(--primary);
+  color: #fff;
+  align-self: flex-end;
+  justify-self: flex-end;
+  border-radius: 25px;
+  padding: 10px;
+}
+.receiver {
+  background: gray;
+  color: #fff;
+  align-self: flex-start;
+  justify-self: flex-start;
+  border-radius: 25px;
+  padding: 10px;
+}

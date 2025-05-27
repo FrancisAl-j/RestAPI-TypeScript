@@ -79,7 +79,7 @@ export const getMessages = async (req: CustomRequest, res: Response) => {
           receiverId: user._id,
         },
       ],
-    });
+    }).sort({ createdAt: 1 });
 
     res.status(200).json(messages);
   } catch (error) {
