@@ -9,6 +9,7 @@ type Message = {
   updatedAt?: Date;
 };
 const ChatBody = () => {
+  const { user } = useAppSelector((state) => state.user);
   const { messages } = useAppSelector((state) => state.message);
 
   // The code below will allow the message to scroll from bottom to top
@@ -29,8 +30,19 @@ const ChatBody = () => {
       {messages &&
         [...messages].reverse().map((data: Message, index: number) => {
           return (
-            <div key={index} className="receiver">
-              <div>
+            <div
+              key={index}
+              className={`${
+                data.senderId === user?._id ? "sender" : "receiver"
+              }`}
+            >
+              <div
+                className={`${
+                  data.senderId === user?._id
+                    ? "sender-container"
+                    : "receiver-container"
+                }`}
+              >
                 <h1>{data.message}</h1>
               </div>
             </div>

@@ -44,18 +44,23 @@ body {
 
 /* Chat CSS */
 .sender {
-  background: var(--primary);
-  color: #fff;
   align-self: flex-end;
   justify-self: flex-end;
+}
+.receiver {
+  align-self: flex-start;
+  justify-self: flex-start;
+}
+
+.sender-container {
+  background: var(--primary);
+  color: #fff;
   border-radius: 25px;
   padding: 10px;
 }
-.receiver {
+.receiver-container {
   background: gray;
   color: #fff;
-  align-self: flex-start;
-  justify-self: flex-start;
   border-radius: 25px;
   padding: 10px;
 }
