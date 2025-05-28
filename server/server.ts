@@ -12,7 +12,8 @@ import connectDB from "./utils/config";
 import authRoute from "./routes/authRouter";
 import messageRoute from "./routes/messageRoute";
 
-const app = express();
+import { app, io, server } from "./utils/socket";
+
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -32,7 +33,7 @@ app.use("/api/message", messageRoute);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Listening to port http://localhost:${PORT}`);
   connectDB();
 });
