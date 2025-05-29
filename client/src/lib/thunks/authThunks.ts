@@ -1,7 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { SigninType, SignupType } from "../Types";
+import type { SigninType, SignupType, User } from "../Types";
 import axios from "axios";
 import { auth } from "../api/authAPI";
+import type { Socket } from "socket.io-client";
 
 // Signup Thunk
 export const SignupThunk = createAsyncThunk(
@@ -45,10 +46,12 @@ export const SigninThunk = createAsyncThunk(
 // Check Authentication Thunk
 export const CheckAuthThunk = createAsyncThunk(
   "user/check",
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, dispatch }) => {
     try {
       const user = await auth.checkAuth();
-
+      setTimeout(() => {
+        dispatch(ConnectSocketThunk());
+      }, 0);
       return user;
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -76,6 +79,48 @@ export const LogoutThunk = createAsyncThunk(
         );
       }
       return rejectWithValue("Log out failed.");
+    }
+  }
+);
+
+// Connection for WebSocket
+type UserState = {
+  user: {
+    _id: string;
+    name: string;
+    email: string;
+    image: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+  } | null;
+  isSigningup: boolean;
+  isSigningin: boolean;
+  isChecking: boolean;
+  error: string | null;
+  message: string | null;
+  onlineUsers: [];
+  socket: Socket | null;
+};
+
+export const ConnectSocketThunk = createAsyncThunk(
+  "user/socket",
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      console.log("Thunk Sockett running");
+
+      const state = getState() as { user: UserState };
+      const { user, socket } = state.user;
+      const result = await auth.connectSocket({ user, socket });
+      console.log(result);
+
+      return result;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Connection failed."
+        );
+      }
+      return rejectWithValue("Connection failed.");
     }
   }
 );

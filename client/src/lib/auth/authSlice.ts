@@ -5,7 +5,9 @@ import {
   SigninThunk,
   CheckAuthThunk,
   LogoutThunk,
+  ConnectSocketThunk,
 } from "../thunks/authThunks";
+import type { Socket } from "socket.io-client";
 
 type UserState = {
   user: {
@@ -21,6 +23,8 @@ type UserState = {
   isChecking: boolean;
   error: string | null;
   message: string | null;
+  onlineUsers: [];
+  socket: Socket | null;
 };
 
 const initialState: UserState = {
@@ -30,6 +34,8 @@ const initialState: UserState = {
   isChecking: false,
   error: null,
   message: null,
+  onlineUsers: [],
+  socket: null,
 };
 
 export const authSlice = createSlice({
@@ -92,6 +98,12 @@ export const authSlice = createSlice({
     });
     builder.addCase(LogoutThunk.rejected, (state, action: any) => {
       state.error = action.payload;
+    });
+
+    // For WebSocket Connection
+    builder.addCase(ConnectSocketThunk.pending, (state) => {});
+    builder.addCase(ConnectSocketThunk.fulfilled, (state, action: any) => {
+      state.socket = action.payload;
     });
   },
 });

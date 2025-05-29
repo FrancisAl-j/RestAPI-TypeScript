@@ -1,3 +1,14 @@
+import type { Socket } from "socket.io-client";
+
+export type User = {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
 export type SigninType = {
   email: string;
   password: string;
@@ -15,11 +26,36 @@ export type MessageType = {
   getMessages: ({ id }: { id: string }) => void;
 };
 
+type UserState = {
+  user: {
+    _id: string;
+    name: string;
+    email: string;
+    image: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+  } | null;
+  isSigningup: boolean;
+  isSigningin: boolean;
+  isChecking: boolean;
+  error: string | null;
+  message: string | null;
+  onlineUsers: [];
+  socket: Socket | null;
+};
+
 export type AuthTypes = {
   signin: (formData: SigninType) => void;
   signup: (formData: SignupType) => void;
   checkAuth: () => void;
   logout: () => void;
+  connectSocket: ({
+    user,
+    socket,
+  }: {
+    user: UserState["user"];
+    socket: Socket | null;
+  }) => void;
 };
 
 export interface IMessageData {
