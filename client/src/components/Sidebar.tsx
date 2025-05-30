@@ -15,11 +15,14 @@ const Sidebar = () => {
     <aside className="h-[100svh] w-[250px] p-2 shadow-2xl flex flex-col">
       <p className=" text-end cursor-pointer text-gray-600 p-3">X</p>
       <header className="flex items-center gap-10">
-        <img
-          src={user?.image}
-          alt=""
-          className=" aspect-square w-10 rounded-full"
-        />
+        <div className="relative">
+          <img
+            src={user?.image}
+            alt=""
+            className=" aspect-square w-10 rounded-full"
+          />
+          <div className="h-3 w-3 bg-green-600 rounded-full absolute top-0 right-0"></div>
+        </div>
 
         <p>{user?.name}</p>
       </header>
