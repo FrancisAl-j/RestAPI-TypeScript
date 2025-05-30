@@ -3,7 +3,10 @@ import type { SigninType, SignupType, User } from "../Types";
 import axios from "axios";
 import { auth } from "../api/authAPI";
 import type { Socket } from "socket.io-client";
+import { connectWebSocket } from "../webSocketService";
+import type { AppDispatch } from "../store";
 
+const baseURL: string = "http://localhost:3000";
 // Signup Thunk
 export const SignupThunk = createAsyncThunk(
   "user/signup",
@@ -104,23 +107,18 @@ type UserState = {
 
 export const ConnectSocketThunk = createAsyncThunk(
   "user/socket",
-  async (_, { rejectWithValue, getState }) => {
+  async (_, { rejectWithValue, getState, dispatch }) => {
     try {
-      console.log("Thunk Sockett running");
-
       const state = getState() as { user: UserState };
-      const { user, socket } = state.user;
-      const result = await auth.connectSocket({ user, socket });
-      console.log(result);
-
-      return result;
+      const { user } = state.user;
+      await connectWebSocket(baseURL, user, dispatch as AppDispatch);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         return rejectWithValue(
           error.response?.data?.message || "Connection failed."
         );
       }
-      return rejectWithValue("Connection failed.");
+      return rejectWithValue("Unknown issue.");
     }
   }
 );

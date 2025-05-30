@@ -18,8 +18,12 @@ import ChatContainer from "./components/chatComponent/ChatContainer";
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const { user, isChecking } = useAppSelector((state) => state.user);
+  const { user, isChecking, onlineUsers } = useAppSelector(
+    (state) => state.user
+  );
   const { currUser } = useAppSelector((state) => state.message);
+
+  console.log(onlineUsers);
 
   useEffect(() => {
     const init = async () => {

@@ -12,23 +12,31 @@ const io = new Server(server, {
   },
 });
 
-// Storing the online users
-const onlineUsers: { userId?: string } = {};
+// Fix: define onlineUsers as a dictionary with dynamic string keys
+const onlineUsers: { [key: string]: string } = {};
 
 io.on("connection", (socket) => {
   console.log(`A user connected ${socket.id}`);
 
   const userId = socket.handshake.query.userId;
-  if (userId) {
-    onlineUsers["userId"] = socket.id;
+
+  // Fix: use the actual userId as key, not the string "userId"
+  if (userId && typeof userId === "string") {
+    onlineUsers[userId] = socket.id;
   }
 
-  // Send events to all connected users
+  // Emit the list of online userIds (the keys of onlineUsers)
   io.emit("getOnlineUsers", Object.keys(onlineUsers));
 
   socket.on("disconnect", () => {
     console.log(`A user disconnected ${socket.id}`);
-    delete onlineUsers["userId"];
+
+    // Remove the disconnected user's entry
+    if (userId && typeof userId === "string") {
+      delete onlineUsers[userId];
+    }
+
+    // Emit updated list of online users
     io.emit("getOnlineUsers", Object.keys(onlineUsers));
   });
 });

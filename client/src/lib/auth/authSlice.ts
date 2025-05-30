@@ -23,8 +23,7 @@ type UserState = {
   isChecking: boolean;
   error: string | null;
   message: string | null;
-  onlineUsers: [];
-  socket: Socket | null;
+  onlineUsers: string[];
 };
 
 const initialState: UserState = {
@@ -35,13 +34,16 @@ const initialState: UserState = {
   error: null,
   message: null,
   onlineUsers: [],
-  socket: null,
 };
 
 export const authSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    setOnlineUsers: (state, action: any) => {
+      state.onlineUsers = [...state.onlineUsers, action.payload];
+    },
+  },
 
   extraReducers: (builder) => {
     // For Signup
@@ -102,10 +104,10 @@ export const authSlice = createSlice({
 
     // For WebSocket Connection
     builder.addCase(ConnectSocketThunk.pending, (state) => {});
-    builder.addCase(ConnectSocketThunk.fulfilled, (state, action: any) => {
-      state.socket = action.payload;
-    });
+    builder.addCase(ConnectSocketThunk.fulfilled, (state, action: any) => {});
   },
 });
 
 export default authSlice.reducer;
+
+export const { setOnlineUsers } = authSlice.actions;

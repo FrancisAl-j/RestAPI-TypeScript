@@ -26,7 +26,7 @@ export type MessageType = {
   getMessages: ({ id }: { id: string }) => void;
 };
 
-type UserState = {
+export type UserState = {
   user: {
     _id: string;
     name: string;
@@ -41,7 +41,6 @@ type UserState = {
   error: string | null;
   message: string | null;
   onlineUsers: [];
-  socket: Socket | null;
 };
 
 export type AuthTypes = {
@@ -49,13 +48,6 @@ export type AuthTypes = {
   signup: (formData: SignupType) => void;
   checkAuth: () => void;
   logout: () => void;
-  connectSocket: ({
-    user,
-    socket,
-  }: {
-    user: UserState["user"];
-    socket: Socket | null;
-  }) => void;
 };
 
 export interface IMessageData {
