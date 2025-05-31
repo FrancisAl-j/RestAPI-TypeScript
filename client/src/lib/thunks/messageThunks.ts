@@ -2,11 +2,16 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { messageAPI } from "../api/messageAPI";
 import type { IMessageData } from "../Types";
+import { webSocketMessage } from "../webSocketService";
+import type { AppDispatch } from "../store";
 
 // Sending or Creating Messages
 export const SendMessage = createAsyncThunk(
   "message/create",
-  async ({ message, receiverId, image }: IMessageData, { rejectWithValue }) => {
+  async (
+    { message, receiverId, image }: IMessageData,
+    { rejectWithValue, dispatch }
+  ) => {
     try {
       const newMessage = await messageAPI.sendMessage({
         message,
@@ -57,6 +62,49 @@ export const GetUsers = createAsyncThunk(
       if (axios.isAxiosError(error)) {
         return rejectWithValue(
           error.response?.data?.message || "Fetching users failed."
+        );
+      }
+      return rejectWithValue("Unknown error occured.");
+    }
+  }
+);
+
+// Message Live
+type User = {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+type IMessage = {
+  users: User[];
+  currUser: User | null;
+  messages: {
+    message: string;
+    receiverId: string;
+    senderId: string;
+    createdAt: Date;
+    updatedAt: Date;
+  }[];
+  isMessagesLoaidng: boolean;
+  isLoading: boolean;
+  error: string | null;
+};
+
+export const LiveMessage = createAsyncThunk(
+  "message/live",
+  async (_, { rejectWithValue, dispatch, getState }) => {
+    try {
+      const state = getState() as { message: IMessage };
+      const { currUser } = state.message;
+      await webSocketMessage(currUser, dispatch as AppDispatch);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Live messaging failed."
         );
       }
       return rejectWithValue("Unknown error occured.");

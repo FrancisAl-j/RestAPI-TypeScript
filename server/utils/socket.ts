@@ -12,6 +12,11 @@ const io = new Server(server, {
   },
 });
 
+// Getting the Id of the receiver
+export const getReceiverId = (userId: string): string => {
+  return onlineUsers[userId];
+};
+
 // Fix: define onlineUsers as a dictionary with dynamic string keys
 const onlineUsers: { [key: string]: string } = {};
 

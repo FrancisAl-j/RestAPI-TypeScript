@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Message from "../models/messageModel";
 import User from "../models/userModel";
 import { CustomRequest } from "../utils/interfaces";
+import { getReceiverId, io } from "../utils/socket";
 
 // Sending or creating new messages
 export const createMessage = async (req: CustomRequest, res: Response) => {
@@ -21,6 +22,12 @@ export const createMessage = async (req: CustomRequest, res: Response) => {
     });
 
     await newMessage.save();
+
+    // Receiver's Id
+    const socketReceiverId = getReceiverId(receiverId);
+    if (socketReceiverId) {
+      io.to(socketReceiverId).emit("newMessage", newMessage);
+    }
 
     res.status(201).json(newMessage);
   } catch (error) {

@@ -22,6 +22,10 @@ export const messageSlice = createSlice({
     removeUser: (state) => {
       state.currUser = null;
     },
+
+    socketNewMessage: (state, action: any) => {
+      state.messages.push(action.payload);
+    },
   },
 
   // extraReducers for thunks
@@ -78,4 +82,5 @@ export const messageSlice = createSlice({
 
 export default messageSlice.reducer;
 
-export const { chooseUser, removeUser } = messageSlice.actions;
+export const { chooseUser, removeUser, socketNewMessage } =
+  messageSlice.actions;

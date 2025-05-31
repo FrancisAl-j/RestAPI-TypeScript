@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
-import { useAppSelector } from "../../lib/Hook";
+import { useAppDispatch, useAppSelector } from "../../lib/Hook";
+import { LiveMessage } from "../../lib/thunks/messageThunks";
 
 type Message = {
   message: string;
@@ -9,6 +10,7 @@ type Message = {
   updatedAt?: Date;
 };
 const ChatBody = () => {
+  const dispaatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.user);
   const { messages } = useAppSelector((state) => state.message);
 
@@ -21,6 +23,12 @@ const ChatBody = () => {
         chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (user) {
+      dispaatch(LiveMessage());
+    }
+  }, [dispaatch, user]);
 
   return (
     <main

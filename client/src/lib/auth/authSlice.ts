@@ -42,7 +42,6 @@ export const authSlice = createSlice({
   reducers: {
     setOnlineUsers: (state, action: any) => {
       state.onlineUsers = action.payload;
-      console.log(`Payload ARRAY: ${action.payload}`);
     },
   },
 

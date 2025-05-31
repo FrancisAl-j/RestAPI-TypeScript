@@ -107,6 +107,7 @@ type UserState = {
   socket: Socket | null;
 };
 
+// Connecting to webSocket
 export const ConnectSocketThunk = createAsyncThunk(
   "user/socket",
   async (_, { rejectWithValue, getState, dispatch }) => {
