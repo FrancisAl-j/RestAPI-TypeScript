@@ -1,16 +1,18 @@
 import { useAppSelector, useAppDispatch } from "../../lib/Hook";
 import Full from "../../assets/addfullscreen.svg";
+import ExitFull from "../../assets/minusfullscreen.svg";
 import Close from "../../assets/close.svg";
 import ChatBody from "./ChatBody";
 import ChatInput from "./ChatInput";
 import { removeUser } from "../../lib/message/messageSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { GetMessages } from "../../lib/thunks/messageThunks";
 
 const ChatContainer = () => {
   const dispatch = useAppDispatch();
   const { currUser } = useAppSelector((state) => state.message);
   const { onlineUsers } = useAppSelector((state) => state.user);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const handleRemoveUser = async () => {
     await dispatch(removeUser());
@@ -25,6 +27,10 @@ const ChatContainer = () => {
 
     init();
   }, [dispatch, currUser]);
+
+  const handleFullscreen = () => {
+    setIsFullscreen((prevState) => !prevState);
+  };
 
   return (
     <aside className="chat-box flex flex-col rounded-2xl overflow-hidden">
@@ -49,12 +55,19 @@ const ChatContainer = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <img src={Full} alt="" className="w-6 aspect-square cursor-pointer" />
+          <img
+            src={isFullscreen ? ExitFull : Full}
+            alt=""
+            className="w-6 aspect-square cursor-pointer"
+            onClick={handleFullscreen}
+            loading="lazy"
+          />
           <img
             onClick={handleRemoveUser}
             src={Close}
             alt=""
             className="w-6 aspect-square cursor-pointer"
+            loading="lazy"
           />
         </div>
       </header>
