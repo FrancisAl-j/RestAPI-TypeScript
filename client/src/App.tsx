@@ -18,9 +18,7 @@ import ChatContainer from "./components/chatComponent/ChatContainer";
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const { user, isChecking, onlineUsers } = useAppSelector(
-    (state) => state.user
-  );
+  const { user, isChecking } = useAppSelector((state) => state.user);
   const { currUser } = useAppSelector((state) => state.message);
 
   useEffect(() => {
@@ -37,8 +35,6 @@ const App = () => {
   if (isChecking && !user) {
     return <Loading />;
   }
-
-  console.log(onlineUsers);
 
   return (
     <Router>

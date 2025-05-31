@@ -10,6 +10,7 @@ import { GetMessages } from "../../lib/thunks/messageThunks";
 const ChatContainer = () => {
   const dispatch = useAppDispatch();
   const { currUser } = useAppSelector((state) => state.message);
+  const { onlineUsers } = useAppSelector((state) => state.user);
 
   const handleRemoveUser = async () => {
     await dispatch(removeUser());
@@ -29,11 +30,20 @@ const ChatContainer = () => {
     <aside className="chat-box flex flex-col rounded-2xl overflow-hidden">
       <header className="bg-[#f2c078] p-1 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <img
-            src={currUser?.image}
-            alt=""
-            className="aspect-square w-9 rounded-full"
-          />
+          <div className="relative">
+            <img
+              src={currUser?.image}
+              alt=""
+              className="aspect-square w-9 rounded-full"
+            />
+            <div
+              className={`h-3 w-3 ${
+                onlineUsers?.includes(currUser?._id as string)
+                  ? "bg-green-600"
+                  : "bg-gray-500"
+              }  rounded-full absolute top-0 right-0`}
+            ></div>
+          </div>
 
           <h1 className="capitalize font-semibold">{currUser?.name}</h1>
         </div>
