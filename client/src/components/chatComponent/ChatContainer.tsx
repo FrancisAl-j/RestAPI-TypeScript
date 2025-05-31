@@ -33,7 +33,11 @@ const ChatContainer = () => {
   };
 
   return (
-    <aside className="chat-box flex flex-col rounded-2xl overflow-hidden">
+    <aside
+      className={`${
+        isFullscreen ? "fullscreen" : "chat-box"
+      } flex flex-col rounded-2xl overflow-hidden`}
+    >
       <header className="bg-[#f2c078] p-1 flex justify-between items-center">
         <div className="flex items-center gap-3">
           <div className="relative">

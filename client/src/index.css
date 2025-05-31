@@ -32,15 +32,6 @@ body {
   width: min(100% - 25px, 500px);
 }
 
-.chat-box {
-  height: 350px;
-  width: 320px;
-  background: #fff;
-  position: fixed;
-  bottom: 0;
-  right: 2%;
-}
-
 /* Chat CSS */
 .sender {
   align-self: flex-end;
@@ -62,4 +53,24 @@ body {
   color: #fff;
   border-radius: 25px;
   padding: 10px;
+}
+
+/* Chat design */
+.chat-box {
+  height: 350px;
+  width: 320px;
+  background: #fff;
+  position: fixed;
+  bottom: 0;
+  right: 2%;
+}
+
+.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100svh;
+  background: #fff;
+  z-index: 999;
 }
