@@ -41,7 +41,8 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setOnlineUsers: (state, action: any) => {
-      state.onlineUsers = [...state.onlineUsers, action.payload];
+      state.onlineUsers = action.payload;
+      console.log(`Payload ARRAY: ${action.payload}`);
     },
   },
 

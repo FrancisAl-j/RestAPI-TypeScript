@@ -9,6 +9,7 @@ type UsersProps = {
 
 const Users = ({ _id, name, image, email }: UsersProps) => {
   const dispatch = useAppDispatch();
+  const { onlineUsers } = useAppSelector((state) => state.user);
 
   const handleChooseUser = async () => {
     try {
@@ -20,12 +21,22 @@ const Users = ({ _id, name, image, email }: UsersProps) => {
     }
   };
 
+  //! Fix the array creating new array overtime
+
   return (
     <div
       onClick={handleChooseUser}
       className="flex items-center cursor-pointer"
     >
-      <img src={image} alt="" className="aspect-square w-10 rounded-full" />
+      <div className="relative">
+        <img src={image} alt="" className="aspect-square w-10 rounded-full" />
+        <div
+          className={`h-3 w-3 ${
+            onlineUsers?.includes(_id) ? "bg-green-600" : "bg-gray-500"
+          }  rounded-full absolute top-0 right-0`}
+        ></div>
+      </div>
+
       <h1>{name}</h1>
     </div>
   );

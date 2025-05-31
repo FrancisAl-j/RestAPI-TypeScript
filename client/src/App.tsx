@@ -23,8 +23,6 @@ const App = () => {
   );
   const { currUser } = useAppSelector((state) => state.message);
 
-  console.log(onlineUsers);
-
   useEffect(() => {
     const init = async () => {
       const result = await dispatch(CheckAuthThunk());
@@ -39,6 +37,8 @@ const App = () => {
   if (isChecking && !user) {
     return <Loading />;
   }
+
+  console.log(onlineUsers);
 
   return (
     <Router>

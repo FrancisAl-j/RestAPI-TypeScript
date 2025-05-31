@@ -27,12 +27,14 @@ io.on("connection", (socket) => {
 
   // Emit the list of online userIds (the keys of onlineUsers)
   io.emit("getOnlineUsers", Object.keys(onlineUsers));
-
+  console.log(onlineUsers);
   socket.on("disconnect", () => {
     console.log(`A user disconnected ${socket.id}`);
 
     // Remove the disconnected user's entry
     if (userId && typeof userId === "string") {
+      console.log("User deleted.");
+
       delete onlineUsers[userId];
     }
 

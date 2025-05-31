@@ -23,3 +23,10 @@ export const connectWebSocket = (
     dispatch(setOnlineUsers(userId));
   });
 };
+
+// Logout and disconnect on WebSocket
+export const disconnectWebSocket = () => {
+  if (socket) {
+    socket.disconnect();
+  }
+};

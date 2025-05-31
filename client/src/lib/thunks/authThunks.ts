@@ -29,10 +29,12 @@ export const SignupThunk = createAsyncThunk(
 // Signin Thunk
 export const SigninThunk = createAsyncThunk(
   "user/signin",
-  async (formData: SigninType, { rejectWithValue }) => {
+  async (formData: SigninType, { rejectWithValue, dispatch }) => {
     try {
       const user = await auth.signin(formData);
-
+      setTimeout(() => {
+        dispatch(ConnectSocketThunk());
+      }, 0);
       localStorage.setItem("visited", "1");
       return user;
     } catch (error) {

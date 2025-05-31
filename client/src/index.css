@@ -10,7 +10,6 @@
 body {
   background: var(--background);
 }
-
 .main-container {
   width: min(100% - 25px, 1400px);
   margin: auto;

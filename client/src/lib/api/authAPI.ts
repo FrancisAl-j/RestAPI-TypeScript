@@ -1,7 +1,6 @@
 import axios from "axios";
 import type { AuthTypes, SigninType, SignupType } from "../Types";
-import { connectWebSocket } from "../webSocketService";
-import type { AppDispatch } from "../store";
+import { disconnectWebSocket } from "../webSocketService";
 
 const baseURL: string = "http://localhost:3000"; // Base URL of the server
 
@@ -58,7 +57,7 @@ export const auth: AuthTypes = {
           withCredentials: true,
         }
       );
-
+      disconnectWebSocket();
       return res.data;
     } catch (error) {
       if (error instanceof Error) {

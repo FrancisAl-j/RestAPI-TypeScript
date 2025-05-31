@@ -8,7 +8,7 @@ type UsersProps = {
 };
 const Sidebar = () => {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.user);
+  const { user, onlineUsers } = useAppSelector((state) => state.user);
   const { users } = useAppSelector((state) => state.message);
 
   return (
