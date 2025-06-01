@@ -143,8 +143,6 @@ export const checkAuth = async (req: CustomRequest, res: Response) => {
 // Log out
 export const signout = async (req: Request, res: Response) => {
   try {
-    console.log("Running");
-
     res.cookie("token", "", { maxAge: 0 });
 
     res.status(200).json({ message: "Successfully logged out." });
@@ -154,6 +152,33 @@ export const signout = async (req: Request, res: Response) => {
       return;
     } else {
       res.status(500).json({ message: "An unknown error occurred." });
+      return;
+    }
+  }
+};
+
+// Updates some Information for User
+type updateType = {
+  name: string;
+  password?: string;
+};
+export const updateUser = async (req: CustomRequest, res: Response) => {
+  const { name, password } = req.body;
+  try {
+    const updatedData: updateType = {
+      name,
+    };
+    if (password) {
+      updatedData.password = await bcrypt.hashSync(password, 10);
+    }
+    const user = await User.findByIdAndUpdate(req.user._id, updatedData, {
+      new: true,
+    });
+
+    res.status(200).json(user);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
       return;
     }
   }
