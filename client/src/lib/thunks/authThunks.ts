@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { SigninType, SignupType, User } from "../Types";
+import type { SigninType, SignupType, UpdateUserType, User } from "../Types";
 import axios from "axios";
 import { auth } from "../api/authAPI";
 import type { Socket } from "socket.io-client";
@@ -119,6 +119,25 @@ export const ConnectSocketThunk = createAsyncThunk(
       if (axios.isAxiosError(error)) {
         return rejectWithValue(
           error.response?.data?.message || "Connection failed."
+        );
+      }
+      return rejectWithValue("Unknown issue.");
+    }
+  }
+);
+
+// Updating User Info
+export const UpdateUserThunk = createAsyncThunk(
+  "user/update",
+  async (formData: UpdateUserType, { rejectWithValue }) => {
+    try {
+      const updatedUser = await auth.update(formData);
+
+      return updatedUser;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Updating user failed."
         );
       }
       return rejectWithValue("Unknown issue.");

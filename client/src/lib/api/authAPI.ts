@@ -1,5 +1,10 @@
 import axios from "axios";
-import type { AuthTypes, SigninType, SignupType } from "../Types";
+import type {
+  AuthTypes,
+  SigninType,
+  SignupType,
+  UpdateUserType,
+} from "../Types";
 import { disconnectWebSocket } from "../webSocketService";
 
 const baseURL: string = "http://localhost:3000"; // Base URL of the server
@@ -63,6 +68,18 @@ export const auth: AuthTypes = {
       if (error instanceof Error) {
         throw error;
       } else console.log("Unknonw error has occured.");
+    }
+  },
+
+  update: async (formData: UpdateUserType) => {
+    try {
+      const res = await axios.put(`${baseURL}/api/auth/update`, formData, {
+        withCredentials: true,
+      });
+
+      return res.data;
+    } catch (error) {
+      throw error;
     }
   },
 };

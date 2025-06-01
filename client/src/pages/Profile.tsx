@@ -1,7 +1,9 @@
 import { useState, type ChangeEvent } from "react";
-import { useAppSelector } from "../lib/Hook";
+import { useAppDispatch, useAppSelector } from "../lib/Hook";
+import { UpdateUserThunk } from "../lib/thunks/authThunks";
 
 const Profile = () => {
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.user);
   const [formData, setFormData] = useState({
     name: user?.name || "",
@@ -18,9 +20,17 @@ const Profile = () => {
     });
   };
 
+  const handleUpdateUser = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const result = await dispatch(UpdateUserThunk(formData));
+  };
+
   return (
     <main className=" h-full grid place-items-center">
-      <form className="form-container bg-white rounded-2xl shadow-xl p-3 flex flex-col gap-6">
+      <form
+        onSubmit={handleUpdateUser}
+        className="form-container bg-white rounded-2xl shadow-xl p-3 flex flex-col gap-6"
+      >
         <header className="my-5">
           <h1 className="text-center font-bold text-3xl ">Profile</h1>
         </header>

@@ -6,6 +6,7 @@ import {
   CheckAuthThunk,
   LogoutThunk,
   ConnectSocketThunk,
+  UpdateUserThunk,
 } from "../thunks/authThunks";
 import type { Socket } from "socket.io-client";
 
@@ -21,6 +22,7 @@ type UserState = {
   isSigningup: boolean;
   isSigningin: boolean;
   isChecking: boolean;
+  isUpdating: boolean;
   error: string | null;
   message: string | null;
   onlineUsers: string[];
@@ -31,6 +33,7 @@ const initialState: UserState = {
   isSigningup: false,
   isSigningin: false,
   isChecking: false,
+  isUpdating: false,
   error: null,
   message: null,
   onlineUsers: [],
@@ -105,6 +108,22 @@ export const authSlice = createSlice({
     // For WebSocket Connection
     builder.addCase(ConnectSocketThunk.pending, (state) => {});
     builder.addCase(ConnectSocketThunk.fulfilled, (state, action: any) => {});
+
+    // Updating user
+    builder.addCase(UpdateUserThunk.pending, (state) => {
+      state.isUpdating = true;
+      state.error = null;
+    });
+    builder.addCase(UpdateUserThunk.fulfilled, (state, action: any) => {
+      state.isUpdating = false;
+      state.user = action.payload;
+      state.error = null;
+    });
+    builder.addCase(UpdateUserThunk.rejected, (state, action: any) => {
+      state.isUpdating = false;
+      state.user = null;
+      state.error = action.payload;
+    });
   },
 });
 

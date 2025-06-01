@@ -20,6 +20,12 @@ export type SignupType = {
   password: string;
 };
 
+export type UpdateUserType = {
+  name: string;
+  email?: string;
+  password: string;
+};
+
 export type MessageType = {
   sendMessage: ({ message, receiverId, image }: IMessageData) => void;
   getUsers: () => void;
@@ -46,6 +52,7 @@ export type UserState = {
 export type AuthTypes = {
   signin: (formData: SigninType) => void;
   signup: (formData: SignupType) => void;
+  update: (formData: UpdateUserType) => void;
   checkAuth: () => void;
   logout: () => void;
 };
