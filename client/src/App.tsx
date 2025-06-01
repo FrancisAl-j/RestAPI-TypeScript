@@ -15,6 +15,7 @@ import { CheckAuthThunk } from "./lib/thunks/authThunks";
 import Sidebar from "./components/Sidebar";
 import { GetUsers } from "./lib/thunks/messageThunks";
 import ChatContainer from "./components/chatComponent/ChatContainer";
+import Profile from "./pages/Profile";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -59,6 +60,11 @@ const App = () => {
               <Route
                 path="/signup"
                 element={user ? <Navigate to="/" /> : <Signup />}
+              />
+
+              <Route
+                path="/profile/:id"
+                element={user ? <Profile /> : <Navigate to="/" />}
               />
             </Routes>
           </main>

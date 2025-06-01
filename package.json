@@ -15,7 +15,9 @@
   "dependencies": {
     "@types/cookie-parser": "^1.4.8",
     "@types/jsonwebtoken": "^9.0.9",
+    "@types/react-dom": "^19.1.5",
     "@types/socket.io": "^3.0.1",
+    "@vitejs/plugin-react": "^4.5.0",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -23,6 +25,7 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.14.2",
+    "react-dom": "^19.1.0",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1"
   },

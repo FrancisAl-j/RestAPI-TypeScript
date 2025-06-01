@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../lib/Hook";
 import Users from "./Users";
 type UsersProps = {
@@ -14,18 +15,20 @@ const Sidebar = () => {
   return (
     <aside className="h-[100svh] w-[250px] p-2 shadow-2xl flex flex-col">
       <p className=" text-end cursor-pointer text-gray-600 p-3">X</p>
-      <header className="flex items-center gap-10">
-        <div className="relative">
-          <img
-            src={user?.image}
-            alt=""
-            className=" aspect-square w-10 rounded-full"
-          />
-          <div className="h-3 w-3 bg-green-600 rounded-full absolute top-0 right-0"></div>
-        </div>
+      <Link to={`/profile/${user?._id}`}>
+        <header className="flex items-center gap-10">
+          <div className="relative">
+            <img
+              src={user?.image}
+              alt=""
+              className=" aspect-square w-10 rounded-full"
+            />
+            <div className="h-3 w-3 bg-green-600 rounded-full absolute top-0 right-0"></div>
+          </div>
 
-        <p>{user?.name}</p>
-      </header>
+          <p>{user?.name}</p>
+        </header>
+      </Link>
 
       <div className="flex flex-col gap-5 mt-10">
         {users.map((user: UsersProps, index: number) => {

@@ -25,3 +25,6 @@
 ## Things to remember
 
 - Do not put ("type": "module") the server won't run. Meaning you don't need to add that to your package.json file
+
+To get started
+go to file vite.config.ts and read the comment
