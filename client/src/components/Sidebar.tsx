@@ -7,14 +7,22 @@ type UsersProps = {
   email: string;
   image: string;
 };
-const Sidebar = () => {
+type SidebarProps = {
+  handleUserMenu: () => void;
+};
+const Sidebar = ({ handleUserMenu }: SidebarProps) => {
   const dispatch = useAppDispatch();
   const { user, onlineUsers } = useAppSelector((state) => state.user);
   const { users } = useAppSelector((state) => state.message);
 
   return (
     <aside className="h-[100svh] w-[250px] p-2 shadow-2xl flex flex-col">
-      <p className=" text-end cursor-pointer text-gray-600 p-3">X</p>
+      <p
+        onClick={handleUserMenu}
+        className=" text-end cursor-pointer text-gray-600 p-3"
+      >
+        X
+      </p>
       <Link to={`/profile/${user?._id}`}>
         <header className="flex items-center gap-10">
           <div className="relative">

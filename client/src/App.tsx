@@ -16,11 +16,13 @@ import Sidebar from "./components/Sidebar";
 import { GetUsers } from "./lib/thunks/messageThunks";
 import ChatContainer from "./components/chatComponent/ChatContainer";
 import Profile from "./pages/Profile";
+import UserMenu from "./assets/usermenu.svg";
 
 const App = () => {
   const dispatch = useAppDispatch();
   const { user, isChecking } = useAppSelector((state) => state.user);
   const { currUser } = useAppSelector((state) => state.message);
+  const [isShow, setIsShow] = useState(false);
 
   useEffect(() => {
     const init = async () => {
@@ -37,6 +39,10 @@ const App = () => {
     return <Loading />;
   }
 
+  const handleUserMenu = () => {
+    setIsShow(!isShow);
+  };
+
   return (
     <Router>
       <div className="w-full relative">
@@ -44,8 +50,17 @@ const App = () => {
 
         <Nav />
 
+        {!isShow && (
+          <div
+            onClick={handleUserMenu}
+            className="bg-[#f2c078] fixed top-[15%] left-[1%] cursor-pointer p-1 rounded-2xl"
+          >
+            <img src={UserMenu} alt="" className="aspect-square w-8" />
+          </div>
+        )}
+
         <div className="flex">
-          {user && <Sidebar />}
+          {user && isShow && <Sidebar handleUserMenu={handleUserMenu} />}
 
           <main className="flex-1">
             <Routes>
