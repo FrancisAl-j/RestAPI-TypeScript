@@ -46,7 +46,7 @@ const App = () => {
   return (
     <Router>
       <div className="w-full relative">
-        {currUser && <ChatContainer />}
+        {currUser && user && <ChatContainer />}
 
         <Nav />
 

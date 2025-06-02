@@ -26,7 +26,7 @@ const Profile = () => {
   };
 
   return (
-    <main className=" h-full grid place-items-center">
+    <main className=" h-[100svh] grid place-items-center">
       <form
         onSubmit={handleUpdateUser}
         className="form-container bg-white rounded-2xl shadow-xl p-3 flex flex-col gap-6"

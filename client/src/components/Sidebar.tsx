@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../lib/Hook";
 import Users from "./Users";
+import { useEffect, useMemo } from "react";
 type UsersProps = {
   _id: string;
   name: string;
@@ -10,10 +11,28 @@ type UsersProps = {
 type SidebarProps = {
   handleUserMenu: () => void;
 };
+
+type UserArr = {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
 const Sidebar = ({ handleUserMenu }: SidebarProps) => {
   const dispatch = useAppDispatch();
   const { user, onlineUsers } = useAppSelector((state) => state.user);
   const { users } = useAppSelector((state) => state.message);
+
+  const sortedUsers = useMemo(() => {
+    const onlineSet = new Set(onlineUsers);
+    return [...users].sort((a, b) => {
+      const aOnline = onlineSet.has(a._id);
+      const bOnline = onlineSet.has(b._id);
+      return Number(bOnline) - Number(aOnline);
+    });
+  }, [users, onlineUsers]);
 
   return (
     <aside className="h-[100svh] w-[250px] p-2 shadow-2xl flex flex-col">
@@ -39,7 +58,7 @@ const Sidebar = ({ handleUserMenu }: SidebarProps) => {
       </Link>
 
       <div className="flex flex-col gap-5 mt-10">
-        {users.map((user: UsersProps, index: number) => {
+        {sortedUsers.map((user: UsersProps, index: number) => {
           return (
             <Users
               key={index}
