@@ -4,6 +4,7 @@ import React, { useEffect, useState, type ChangeEvent } from "react";
 import type { SigninType } from "../lib/Types";
 import { useAppDispatch, useAppSelector } from "../lib/Hook";
 import { SigninThunk } from "../lib/thunks/authThunks";
+import { GetUsers } from "../lib/thunks/messageThunks";
 
 const Signin = () => {
   const dispatch = useAppDispatch();
@@ -38,6 +39,7 @@ const Signin = () => {
     const result = await dispatch(SigninThunk(formData));
 
     if (SigninThunk.fulfilled.match(result)) {
+      dispatch(GetUsers());
       navigate("/");
     }
   };

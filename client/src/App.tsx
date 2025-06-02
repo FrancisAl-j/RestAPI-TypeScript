@@ -50,7 +50,7 @@ const App = () => {
 
         <Nav />
 
-        {!isShow && (
+        {!isShow && user && (
           <div
             onClick={handleUserMenu}
             className="bg-[#f2c078] fixed top-[15%] left-[1%] cursor-pointer p-1 rounded-2xl"
