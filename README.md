@@ -28,3 +28,5 @@
 
 To get started
 go to file vite.config.ts and read the comment
+
+## MEMOIZE / MEMOIZATION

@@ -30,6 +30,7 @@ export type MessageType = {
   sendMessage: ({ message, receiverId, image }: IMessageData) => void;
   getUsers: () => void;
   getMessages: ({ id }: { id: string }) => void;
+  getUnreadMessages: () => void;
 };
 
 export type UserState = {

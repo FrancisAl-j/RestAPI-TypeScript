@@ -53,4 +53,16 @@ export const messageAPI: MessageType = {
       } else console.log("Unknonw error has occured.");
     }
   },
+
+  getUnreadMessages: async () => {
+    try {
+      const res = await axios.get(`${baseURL}/api/message/unread`, {
+        withCredentials: true,
+      });
+
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

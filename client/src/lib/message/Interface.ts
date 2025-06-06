@@ -18,5 +18,15 @@ export interface IMessage {
   }[];
   isMessagesLoaidng: boolean;
   isLoading: boolean;
+  insUnreadLoading: boolean;
   error: string | null;
+  unreadMessages: {
+    message: string;
+    receiverId: string;
+    senderId: string;
+    createdAt: Date;
+    updatedAt: Date;
+  }[];
+
+  activeUserChat: string | null;
 }

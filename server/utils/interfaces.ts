@@ -19,6 +19,7 @@ export interface IMessage extends Document {
   senderId: Types.ObjectId | string;
   receiverId: Types.ObjectId | string;
   image: string;
+  isRead: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }

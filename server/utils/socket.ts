@@ -17,13 +17,54 @@ export const getReceiverId = (userId: string): string => {
   return onlineUsers[userId];
 };
 
+// Getting the recipient id
+export const getRecipientId = (userId: string): boolean => {
+  const users = Object.keys(activeChatMap);
+  const key = users.includes(userId);
+  return key;
+};
+
 // Fix: define onlineUsers as a dictionary with dynamic string keys
 const onlineUsers: { [key: string]: string } = {};
+
+// For Actively Chatting
+const activeChatMap: { [userId: string]: string } = {};
 
 io.on("connection", (socket) => {
   console.log(`A user connected ${socket.id}`);
 
   const userId = socket.handshake.query.userId;
+
+  // Join room / Private Message
+  socket.on("join", (userId) => {
+    console.log("User Joined.");
+
+    (socket as any).userId = userId;
+    socket.join(userId);
+  });
+
+  socket.on("setActiveChat", ({ userId, chatWith }) => {
+    if (chatWith === null) {
+      delete activeChatMap[userId];
+      console.log("User in chat map deleted");
+    } else {
+      activeChatMap[userId] = chatWith;
+    }
+    console.log(activeChatMap[userId]);
+    console.log(activeChatMap);
+  });
+
+  socket.on("sendNewMessage", ({ from, to, message }) => {
+    const isRecipientViewingChat = activeChatMap[to] === from;
+
+    // Send the message to recipient
+    io.to(to).emit("receiveMessage", { from, message });
+
+    // Notify recipient to show unread badge if not actively viewing the sender
+    if (!isRecipientViewingChat) {
+      io.to(to).emit("showUnread", { from });
+    }
+  });
 
   // Fix: use the actual userId as key, not the string "userId"
   if (userId && typeof userId === "string") {
@@ -32,14 +73,13 @@ io.on("connection", (socket) => {
 
   // Emit the list of online userIds (the keys of onlineUsers)
   io.emit("getOnlineUsers", Object.keys(onlineUsers));
-  console.log(onlineUsers);
+
+  // Logout or closing the window
   socket.on("disconnect", () => {
     console.log(`A user disconnected ${socket.id}`);
 
     // Remove the disconnected user's entry
     if (userId && typeof userId === "string") {
-      console.log("User deleted.");
-
       delete onlineUsers[userId];
     }
 

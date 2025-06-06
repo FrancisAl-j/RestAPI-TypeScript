@@ -13,7 +13,7 @@ import { useAppSelector, useAppDispatch } from "./lib/Hook";
 import Loading from "./components/Loading";
 import { CheckAuthThunk } from "./lib/thunks/authThunks";
 import Sidebar from "./components/Sidebar";
-import { GetUsers } from "./lib/thunks/messageThunks";
+import { GetUsers, UnreadMessages } from "./lib/thunks/messageThunks";
 import ChatContainer from "./components/chatComponent/ChatContainer";
 import Profile from "./pages/Profile";
 import UserMenu from "./assets/usermenu.svg";
@@ -29,6 +29,7 @@ const App = () => {
       const result = await dispatch(CheckAuthThunk());
       if (CheckAuthThunk.fulfilled.match(result)) {
         dispatch(GetUsers());
+        dispatch(UnreadMessages());
       }
     };
 

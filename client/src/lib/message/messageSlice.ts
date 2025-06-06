@@ -1,6 +1,12 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { IMessage } from "./Interface";
-import { GetMessages, GetUsers, SendMessage } from "../thunks/messageThunks";
+import {
+  GetMessages,
+  GetUsers,
+  SendMessage,
+  SetActiveUser,
+  UnreadMessages,
+} from "../thunks/messageThunks";
 import type { User } from "./Interface";
 
 const initialState: IMessage = {
@@ -9,7 +15,10 @@ const initialState: IMessage = {
   messages: [],
   isMessagesLoaidng: false,
   isLoading: false,
+  insUnreadLoading: false,
   error: null,
+  unreadMessages: [],
+  activeUserChat: null,
 };
 
 export const messageSlice = createSlice({
@@ -21,10 +30,15 @@ export const messageSlice = createSlice({
     },
     removeUser: (state) => {
       state.currUser = null;
+      state.activeUserChat = null;
     },
 
     socketNewMessage: (state, action: any) => {
       state.messages.push(action.payload);
+    },
+
+    getActiveChat: (state, action: PayloadAction<string>) => {
+      state.activeUserChat = action.payload;
     },
   },
 
@@ -77,10 +91,22 @@ export const messageSlice = createSlice({
       state.messages = [];
       state.error = action.payload;
     });
+
+    // Fetch Unread Messages
+    builder.addCase(UnreadMessages.pending, (state) => {
+      state.insUnreadLoading = true;
+    });
+    builder.addCase(UnreadMessages.fulfilled, (state, action: any) => {
+      state.insUnreadLoading = false;
+      state.unreadMessages = action.payload;
+    });
+    builder.addCase(UnreadMessages.rejected, (state) => {
+      state.insUnreadLoading = false;
+    });
   },
 });
 
 export default messageSlice.reducer;
 
-export const { chooseUser, removeUser, socketNewMessage } =
+export const { chooseUser, removeUser, socketNewMessage, getActiveChat } =
   messageSlice.actions;

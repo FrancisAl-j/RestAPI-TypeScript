@@ -1,8 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { messageAPI } from "../api/messageAPI";
-import type { IMessageData } from "../Types";
-import { webSocketMessage } from "../webSocketService";
+import type { IMessageData, UserState } from "../Types";
+import {
+  receiveMessage,
+  removeActiveChat,
+  setActiveChat,
+  webSocketMessage,
+} from "../webSocketService";
 import type { AppDispatch } from "../store";
 
 // Sending or Creating Messages
@@ -10,14 +15,21 @@ export const SendMessage = createAsyncThunk(
   "message/create",
   async (
     { message, receiverId, image }: IMessageData,
-    { rejectWithValue, dispatch }
+    { rejectWithValue, getState }
   ) => {
     try {
+      const userState = getState() as { user: UserState };
+      const currState = getState() as { message: IMessage };
+      const { user } = userState.user;
+      const { currUser } = currState.message;
       const newMessage = await messageAPI.sendMessage({
         message,
         receiverId,
         image,
       });
+
+      // Receive message from the websocket
+      await receiveMessage(user, currUser, newMessage);
 
       return newMessage;
     } catch (error) {
@@ -44,6 +56,26 @@ export const GetMessages = createAsyncThunk(
         return rejectWithValue(
           error.response?.data?.message ||
             "There was a problem fetching a message."
+        );
+      }
+      return rejectWithValue("Unknown error occured.");
+    }
+  }
+);
+
+// Get unread messages
+export const UnreadMessages = createAsyncThunk(
+  "message/unread",
+  async (_, { rejectWithValue }) => {
+    try {
+      const unreadMessages = await messageAPI.getUnreadMessages();
+
+      return unreadMessages;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message ||
+            "There was a problem fetching a messages."
         );
       }
       return rejectWithValue("Unknown error occured.");
@@ -99,6 +131,7 @@ export const LiveMessage = createAsyncThunk(
   async (_, { rejectWithValue, dispatch, getState }) => {
     try {
       const state = getState() as { message: IMessage };
+
       const { currUser } = state.message;
       await webSocketMessage(currUser, dispatch as AppDispatch);
     } catch (error) {
@@ -106,6 +139,42 @@ export const LiveMessage = createAsyncThunk(
         return rejectWithValue(
           error.response?.data?.message || "Live messaging failed."
         );
+      }
+      return rejectWithValue("Unknown error occured.");
+    }
+  }
+);
+
+// Real-time picking a user and closing it
+export const SetActiveUser = createAsyncThunk(
+  "socket/set-user",
+  async (_, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const state = getState() as { message: IMessage };
+      const userState = getState() as { user: UserState };
+      const { currUser } = state.message;
+      const { user } = userState.user;
+      await setActiveChat(currUser, user, dispatch as AppDispatch);
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue("Unknown error occured.");
+    }
+  }
+);
+
+// Closing chat real-time
+export const RemoveActiveUser = createAsyncThunk(
+  "socket/remove-user",
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      const state = getState() as { user: UserState };
+      const { user } = state.user;
+      await removeActiveChat(user);
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
       }
       return rejectWithValue("Unknown error occured.");
     }

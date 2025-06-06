@@ -12,6 +12,14 @@ type SidebarProps = {
   handleUserMenu: () => void;
 };
 
+type Message = {
+  message: string;
+  receiverId: string;
+  senderId: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
 type UserArr = {
   _id: string;
   name: string;
@@ -23,7 +31,7 @@ type UserArr = {
 const Sidebar = ({ handleUserMenu }: SidebarProps) => {
   const dispatch = useAppDispatch();
   const { user, onlineUsers } = useAppSelector((state) => state.user);
-  const { users } = useAppSelector((state) => state.message);
+  const { users, unreadMessages } = useAppSelector((state) => state.message);
 
   const sortedUsers = useMemo(() => {
     const onlineSet = new Set(onlineUsers);
@@ -59,6 +67,12 @@ const Sidebar = ({ handleUserMenu }: SidebarProps) => {
 
       <div className="flex flex-col gap-5 mt-10">
         {sortedUsers.map((user: UsersProps, index: number) => {
+          let count: number = 0;
+          unreadMessages?.forEach((messages: Message) => {
+            if (messages.senderId === user._id) {
+              count++;
+            }
+          });
           return (
             <Users
               key={index}
@@ -66,6 +80,7 @@ const Sidebar = ({ handleUserMenu }: SidebarProps) => {
               name={user.name}
               email={user.email}
               image={user.image}
+              count={count}
             />
           );
         })}
