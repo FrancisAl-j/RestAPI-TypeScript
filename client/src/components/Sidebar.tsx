@@ -53,7 +53,7 @@ const Sidebar = ({ handleUserMenu }: SidebarProps) => {
   // Fix the Live Indication unread message Tommorow
 
   return (
-    <aside className="h-[100svh] w-[250px] p-2 shadow-2xl flex flex-col overflow-auto">
+    <aside className="absolute sn:static h-[100svh] w-full sm:w-[250px] p-2 shadow-2xl flex flex-col overflow-auto z-50 bg-[#f2c078] top-0 left-0">
       <p
         onClick={handleUserMenu}
         className=" text-end cursor-pointer text-gray-600 p-3"

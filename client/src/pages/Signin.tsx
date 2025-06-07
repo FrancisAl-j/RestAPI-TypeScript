@@ -39,14 +39,14 @@ const Signin = () => {
     const result = await dispatch(SigninThunk(formData));
 
     if (SigninThunk.fulfilled.match(result)) {
-      dispatch(GetUsers());
+      dispatch(GetUsers(""));
       navigate("/");
     }
   };
   return (
     <main className="w-full h-[100svh]">
-      <section className="main-container flex h-full">
-        <div className="flex-1 grid place-items-center">
+      <section className="main-container flex h-full flex-col-reverse lg:flex-row">
+        <div className="flex-3/5 lg:flex-1 grid place-items-center">
           <form
             onSubmit={handleSubmit}
             className="form-container flex flex-col gap-6"

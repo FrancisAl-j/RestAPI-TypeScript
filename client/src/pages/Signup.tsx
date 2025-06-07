@@ -37,7 +37,7 @@ const Signup = () => {
 
   return (
     <main className="w-full h-[100svh]">
-      <section className="main-container flex h-full">
+      <section className="main-container flex h-full flex-col lg:flex-row">
         <div className="flex-1 grid place-items-center bg-[#fe5d26]">
           <div className="flex flex-col items-center gap-5">
             <h1 className="big-text text-white text-center">Hello, Friend</h1>
@@ -50,7 +50,7 @@ const Signup = () => {
           </div>
         </div>
 
-        <div className="flex-1 grid place-items-center">
+        <div className="flex-3/5 lg:flex-1 grid place-items-center">
           <form
             onSubmit={handleSignup}
             className="form-container flex flex-col gap-6"

@@ -17,7 +17,7 @@ const Button = ({ type, path, func, children }: ButtonProps): JSX.Element => {
   return (
     <button
       onClick={func}
-      className={`${buttonTypes[type] || buttonTypes.default} hidden sm:flex`}
+      className={`${buttonTypes[type] || buttonTypes.default}`}
     >
       {children}
     </button>

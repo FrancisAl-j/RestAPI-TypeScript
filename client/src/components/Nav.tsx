@@ -3,8 +3,9 @@ import Logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../lib/Hook";
 import { LogoutThunk } from "../lib/thunks/authThunks";
+import Menu from "../assets/menu.svg";
 
-const Nav = () => {
+const Nav = ({ handleUserMenu }: { handleUserMenu: () => void }) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.user);
 
@@ -19,15 +20,24 @@ const Nav = () => {
           <img src={Logo} alt="" className="w-[150px] aspect-[5/2] " />
         </Link>
 
-        {user ? (
-          <Button type="delete" func={handleLogout}>
-            Logout
-          </Button>
-        ) : (
-          <Link to="/signin">
-            <Button type="signin">Sign in</Button>
-          </Link>
-        )}
+        <div className="hidden sm:flex">
+          {user ? (
+            <Button type="delete" func={handleLogout}>
+              Logout
+            </Button>
+          ) : (
+            <Link to="/signin">
+              <Button type="signin">Sign in</Button>
+            </Link>
+          )}
+        </div>
+
+        <img
+          src={Menu}
+          alt="menu logo"
+          onClick={handleUserMenu}
+          className="aspect-square w-10 block sm:hidden"
+        />
       </nav>
     </header>
   );

@@ -59,18 +59,16 @@ const App = () => {
     <Router>
       <div className="w-full relative">
         {currUser && user && <ChatContainer />}
-
-        <Nav />
-
+        <Nav handleUserMenu={handleUserMenu} />
         {!isShow && user && (
           <div
             onClick={handleUserMenu}
-            className="bg-[#f2c078] fixed top-[15%] left-[1%] cursor-pointer p-1 rounded-2xl"
+            className="hidden sm:block bg-[#f2c078] fixed top-[15%] left-[1%] cursor-pointer p-1 rounded-2xl"
           >
             <img src={UserMenu} alt="" className="aspect-square w-8" />
           </div>
         )}
-
+        //! Fix the responsiveness of the chat box tomorrow
         <div className="flex">
           {user && isShow && <Sidebar handleUserMenu={handleUserMenu} />}
 
