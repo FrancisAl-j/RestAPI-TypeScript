@@ -56,6 +56,8 @@ export const createMessage = async (req: CustomRequest, res: Response) => {
 
 // Displaying all users
 export const getUsers = async (req: CustomRequest, res: Response) => {
+  const { query } = req.query;
+  const searchQuery: string = query ? String(query) : "";
   try {
     const user = await User.findById(req.user._id);
     if (!user) {
@@ -63,9 +65,16 @@ export const getUsers = async (req: CustomRequest, res: Response) => {
       return;
     }
 
-    const users = await User.find({ _id: { $ne: user._id } }).select(
-      "-password"
-    ); //  $ne => Not equal (meaning getting all users except the current user)
+    let users;
+
+    if (query) {
+      users = await User.find({
+        _id: { $ne: user._id },
+        name: { $regex: query, $options: "i" },
+      }).select("-password"); //  $ne => Not equal (meaning getting all users except the current user)
+    } else {
+      users = await User.find({ _id: { $ne: user._id } }).select("-password");
+    }
 
     res.status(200).json(users);
   } catch (error) {

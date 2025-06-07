@@ -30,3 +30,7 @@ To get started
 go to file vite.config.ts and read the comment
 
 ## MEMOIZE / MEMOIZATION
+
+## Debouncing
+
+- What is debouncing? It is a technique use to prevent the search from calling API from the server every key press

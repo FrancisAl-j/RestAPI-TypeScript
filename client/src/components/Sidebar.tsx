@@ -3,6 +3,7 @@ import { useAppSelector, useAppDispatch } from "../lib/Hook";
 import Users from "./Users";
 import { useEffect, useMemo } from "react";
 import { LiveUnreadMessages } from "../lib/thunks/messageThunks";
+import Search from "./chatComponent/Search";
 type UsersProps = {
   _id: string;
   name: string;
@@ -52,13 +53,14 @@ const Sidebar = ({ handleUserMenu }: SidebarProps) => {
   // Fix the Live Indication unread message Tommorow
 
   return (
-    <aside className="h-[100svh] w-[250px] p-2 shadow-2xl flex flex-col">
+    <aside className="h-[100svh] w-[250px] p-2 shadow-2xl flex flex-col overflow-auto">
       <p
         onClick={handleUserMenu}
         className=" text-end cursor-pointer text-gray-600 p-3"
       >
         X
       </p>
+      <Search />
       <Link to={`/profile/${user?._id}`}>
         <header className="flex items-center gap-10">
           <div className="relative">
