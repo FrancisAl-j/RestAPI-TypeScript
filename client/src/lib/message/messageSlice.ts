@@ -40,6 +40,9 @@ export const messageSlice = createSlice({
     getActiveChat: (state, action: PayloadAction<string>) => {
       state.activeUserChat = action.payload;
     },
+    receiveUnreadMessages: (state, action: any) => {
+      state.unreadMessages.push(action.payload);
+    },
   },
 
   // extraReducers for thunks
@@ -108,5 +111,10 @@ export const messageSlice = createSlice({
 
 export default messageSlice.reducer;
 
-export const { chooseUser, removeUser, socketNewMessage, getActiveChat } =
-  messageSlice.actions;
+export const {
+  chooseUser,
+  removeUser,
+  socketNewMessage,
+  getActiveChat,
+  receiveUnreadMessages,
+} = messageSlice.actions;

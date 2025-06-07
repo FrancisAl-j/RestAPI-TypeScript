@@ -54,18 +54,6 @@ io.on("connection", (socket) => {
     console.log(activeChatMap);
   });
 
-  socket.on("sendNewMessage", ({ from, to, message }) => {
-    const isRecipientViewingChat = activeChatMap[to] === from;
-
-    // Send the message to recipient
-    io.to(to).emit("receiveMessage", { from, message });
-
-    // Notify recipient to show unread badge if not actively viewing the sender
-    if (!isRecipientViewingChat) {
-      io.to(to).emit("showUnread", { from });
-    }
-  });
-
   // Fix: use the actual userId as key, not the string "userId"
   if (userId && typeof userId === "string") {
     onlineUsers[userId] = socket.id;

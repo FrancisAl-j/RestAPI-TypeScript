@@ -3,9 +3,9 @@ import axios from "axios";
 import { messageAPI } from "../api/messageAPI";
 import type { IMessageData, UserState } from "../Types";
 import {
-  receiveMessage,
   removeActiveChat,
   setActiveChat,
+  unreadMessage,
   webSocketMessage,
 } from "../webSocketService";
 import type { AppDispatch } from "../store";
@@ -15,7 +15,7 @@ export const SendMessage = createAsyncThunk(
   "message/create",
   async (
     { message, receiverId, image }: IMessageData,
-    { rejectWithValue, getState }
+    { rejectWithValue, getState, dispatch }
   ) => {
     try {
       const userState = getState() as { user: UserState };
@@ -29,7 +29,7 @@ export const SendMessage = createAsyncThunk(
       });
 
       // Receive message from the websocket
-      await receiveMessage(user, currUser, newMessage);
+      await unreadMessage(dispatch as AppDispatch);
 
       return newMessage;
     } catch (error) {
@@ -126,6 +126,7 @@ type IMessage = {
   error: string | null;
 };
 
+// For live messaging
 export const LiveMessage = createAsyncThunk(
   "message/live",
   async (_, { rejectWithValue, dispatch, getState }) => {
@@ -134,6 +135,23 @@ export const LiveMessage = createAsyncThunk(
 
       const { currUser } = state.message;
       await webSocketMessage(currUser, dispatch as AppDispatch);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Live messaging failed."
+        );
+      }
+      return rejectWithValue("Unknown error occured.");
+    }
+  }
+);
+
+// Real-time Indication Messages (unread)
+export const LiveUnreadMessages = createAsyncThunk(
+  "message/unread-live",
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      await unreadMessage(dispatch as AppDispatch);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         return rejectWithValue(

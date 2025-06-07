@@ -3,7 +3,11 @@ import type { UserState } from "./Types";
 import type { AppDispatch } from "./store";
 import { setOnlineUsers } from "./auth/authSlice";
 import type { IMessage } from "./message/Interface";
-import { getActiveChat, socketNewMessage } from "./message/messageSlice";
+import {
+  getActiveChat,
+  receiveUnreadMessages,
+  socketNewMessage,
+} from "./message/messageSlice";
 
 let socket: Socket | null = null;
 
@@ -84,16 +88,13 @@ type MessageType = {
   createdAt?: Date;
   updatedAt?: Date;
 };
-export const receiveMessage = (
-  user: UserType,
-  currUser: CurrUserType,
-  message: MessageType | void
-) => {
+
+// Real-Time Unread Messages
+export const unreadMessage = (dispatch: AppDispatch) => {
   if (socket) {
-    socket.emit("sendNewMessage", {
-      from: user?._id,
-      to: currUser?._id,
-      message,
+    socket.off("unreadMessage"); // Remove previous listener
+    socket.on("unreadMessage", (newMessage) => {
+      dispatch(receiveUnreadMessages(newMessage));
     });
   }
 };

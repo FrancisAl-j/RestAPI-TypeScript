@@ -22,19 +22,25 @@ export const createMessage = async (req: CustomRequest, res: Response) => {
     });
 
     const recipientId = getRecipientId(receiverId);
+    const socketReceiverId = getReceiverId(receiverId);
     if (recipientId) {
       newMessage.isRead = true;
+      await newMessage.save();
+      if (socketReceiverId) {
+        console.log("If Runnig");
+
+        io.to(socketReceiverId).emit("newMessage", newMessage);
+      }
     } else {
       newMessage.isRead = false;
+      await newMessage.save();
+      if (socketReceiverId) {
+        console.log("else Runnig:" + socketReceiverId);
+        io.to(socketReceiverId).emit("unreadMessage", newMessage);
+      }
     }
-
-    await newMessage.save();
 
     // Receiver's Id
-    const socketReceiverId = getReceiverId(receiverId);
-    if (socketReceiverId) {
-      io.to(socketReceiverId).emit("newMessage", newMessage);
-    }
 
     res.status(201).json(newMessage);
   } catch (error) {
