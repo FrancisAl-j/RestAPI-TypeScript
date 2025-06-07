@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Nav from "./components/Nav";
 import {
   BrowserRouter as Router,
@@ -40,6 +40,7 @@ const App = () => {
       if (CheckAuthThunk.fulfilled.match(result)) {
         dispatch(GetUsers());
         dispatch(UnreadMessages());
+        dispatch(LiveUnreadMessages());
       }
     };
 
