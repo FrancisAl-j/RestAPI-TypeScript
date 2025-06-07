@@ -85,9 +85,9 @@ export const UnreadMessages = createAsyncThunk(
 
 export const GetUsers = createAsyncThunk(
   "message/users",
-  async (_, { rejectWithValue }) => {
+  async (query: string, { rejectWithValue }) => {
     try {
-      const users = await messageAPI.getUsers();
+      const users = await messageAPI.getUsers(query);
 
       return users;
     } catch (error) {

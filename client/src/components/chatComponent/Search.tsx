@@ -1,10 +1,17 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
+import { useAppDispatch } from "../../lib/Hook";
+import { GetUsers } from "../../lib/thunks/messageThunks";
 
 const Search = () => {
+  const dispatch = useAppDispatch();
   const [query, setQuery] = useState("");
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
+
+  useEffect(() => {
+    dispatch(GetUsers(query));
+  }, [dispatch, query]);
   return (
     <div className="relative">
       <input

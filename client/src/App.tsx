@@ -38,7 +38,7 @@ const App = () => {
     const init = async () => {
       const result = await dispatch(CheckAuthThunk());
       if (CheckAuthThunk.fulfilled.match(result)) {
-        dispatch(GetUsers());
+        dispatch(GetUsers(""));
         dispatch(UnreadMessages());
         dispatch(LiveUnreadMessages());
       }

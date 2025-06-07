@@ -28,7 +28,7 @@ export type UpdateUserType = {
 
 export type MessageType = {
   sendMessage: ({ message, receiverId, image }: IMessageData) => void;
-  getUsers: () => void;
+  getUsers: (query: string) => void;
   getMessages: ({ id }: { id: string }) => void;
   getUnreadMessages: () => void;
 };

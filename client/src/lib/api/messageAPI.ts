@@ -40,9 +40,10 @@ export const messageAPI: MessageType = {
     }
   },
 
-  getUsers: async () => {
+  getUsers: async (query: string) => {
     try {
       const res = await axios.get(`${baseURL}/api/message/get-users`, {
+        params: { query },
         withCredentials: true,
       });
 
