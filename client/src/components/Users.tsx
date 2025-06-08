@@ -10,6 +10,7 @@ type UsersProps = {
   handleUserMenu: () => void;
 };
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Users = ({
   _id,
@@ -47,30 +48,36 @@ const Users = ({
 
   return (
     <>
-      <div
-        onClick={() => {
-          handleChooseUser();
-          handleUserMenu();
-        }}
-        className="flex sm:hidden items-center cursor-pointer gap-4 relative"
-      >
-        <div className="relative">
-          <img src={image} alt="" className="aspect-square w-10 rounded-full" />
-          <div
-            className={`h-3 w-3 ${
-              onlineUsers?.includes(_id) ? "bg-green-600" : "bg-gray-500"
-            }  rounded-full absolute top-0 right-0`}
-          ></div>
+      <Link to={`/user/${_id}`}>
+        <div
+          onClick={() => {
+            handleChooseUser();
+            handleUserMenu();
+          }}
+          className="flex sm:hidden items-center cursor-pointer gap-4 relative"
+        >
+          <div className="relative">
+            <img
+              src={image}
+              alt=""
+              className="aspect-square w-10 rounded-full"
+            />
+            <div
+              className={`h-3 w-3 ${
+                onlineUsers?.includes(_id) ? "bg-green-600" : "bg-gray-500"
+              }  rounded-full absolute top-0 right-0`}
+            ></div>
+          </div>
+
+          <h1>{name}</h1>
+
+          {count !== 0 && (
+            <p className="px-2 bg-red-500 text-white rounded-full absolute right-2">
+              {count}
+            </p>
+          )}
         </div>
-
-        <h1>{name}</h1>
-
-        {count !== 0 && (
-          <p className="px-2 bg-red-500 text-white rounded-full absolute right-2">
-            {count}
-          </p>
-        )}
-      </div>
+      </Link>
 
       <div
         onClick={handleChooseUser}

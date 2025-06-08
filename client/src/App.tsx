@@ -21,6 +21,7 @@ import {
 import ChatContainer from "./components/chatComponent/ChatContainer";
 import Profile from "./pages/Profile";
 import UserMenu from "./assets/usermenu.svg";
+import MobileContainer from "./components/mobileChat/MobileContainer";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -90,6 +91,11 @@ const App = () => {
               <Route
                 path="/profile/:id"
                 element={user ? <Profile /> : <Navigate to="/" />}
+              />
+
+              <Route
+                path="/user/:id"
+                element={currUser ? <MobileContainer /> : <Home />}
               />
             </Routes>
           </main>
