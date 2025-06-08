@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../lib/Hook";
 import Users from "./Users";
-import { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { LiveUnreadMessages } from "../lib/thunks/messageThunks";
 import Search from "./chatComponent/Search";
 type UsersProps = {
@@ -92,6 +92,7 @@ const Sidebar = ({ handleUserMenu }: SidebarProps) => {
               email={user.email}
               image={user.image}
               count={count}
+              handleUserMenu={handleUserMenu}
             />
           );
         })}

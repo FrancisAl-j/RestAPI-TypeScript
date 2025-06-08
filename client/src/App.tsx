@@ -68,7 +68,7 @@ const App = () => {
             <img src={UserMenu} alt="" className="aspect-square w-8" />
           </div>
         )}
-        //! Fix the responsiveness of the chat box tomorrow
+
         <div className="flex">
           {user && isShow && <Sidebar handleUserMenu={handleUserMenu} />}
 
