@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../lib/Hook";
 import {
   LiveMessage,
   LiveUnreadMessages,
 } from "../../lib/thunks/messageThunks";
+import ChatLoading from "../loadingComponent/ChatLoading";
 
 type Message = {
   message: string;
@@ -15,7 +16,8 @@ type Message = {
 const MobileBody = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.user);
-  const { messages } = useAppSelector((state) => state.message);
+  const { messages, isLoading } = useAppSelector((state) => state.message);
+  const [loading] = useState(true);
 
   // The code below will allow the message to scroll from bottom to top
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
@@ -38,7 +40,7 @@ const MobileBody = () => {
       ref={chatContainerRef}
       className="overflow-y-scroll flex flex-col-reverse gap-2 p-2 h-full bg-white"
     >
-      {messages &&
+      {!isLoading && messages ? (
         [...messages].reverse().map((data: Message, index: number) => {
           return (
             <div
@@ -58,7 +60,10 @@ const MobileBody = () => {
               </div>
             </div>
           );
-        })}
+        })
+      ) : (
+        <ChatLoading />
+      )}
     </main>
   );
 };
