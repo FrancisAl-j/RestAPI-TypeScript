@@ -4,7 +4,6 @@ import {
   GetMessages,
   GetUsers,
   SendMessage,
-  SetActiveUser,
   UnreadMessages,
 } from "../thunks/messageThunks";
 import type { User } from "./Interface";
@@ -19,6 +18,7 @@ const initialState: IMessage = {
   error: null,
   unreadMessages: [],
   activeUserChat: null,
+  hasMore: false,
 };
 
 export const messageSlice = createSlice({
@@ -27,10 +27,12 @@ export const messageSlice = createSlice({
   reducers: {
     chooseUser: (state, action: PayloadAction<User>) => {
       state.currUser = action.payload;
+      state.messages = [];
     },
     removeUser: (state) => {
       state.currUser = null;
       state.activeUserChat = null;
+      state.messages = [];
     },
 
     socketNewMessage: (state, action: any) => {
@@ -81,12 +83,13 @@ export const messageSlice = createSlice({
     // Fetching messages
     builder.addCase(GetMessages.pending, (state) => {
       state.isLoading = true;
-      state.messages = [];
       state.error = null;
     });
     builder.addCase(GetMessages.fulfilled, (state, action: any) => {
+      const { hasMore } = action.payload;
       state.isLoading = false;
-      state.messages = action.payload;
+      state.messages = [...action.payload.messages, ...state.messages];
+      state.hasMore = hasMore;
       state.error = null;
     });
     builder.addCase(GetMessages.rejected, (state, action: any) => {

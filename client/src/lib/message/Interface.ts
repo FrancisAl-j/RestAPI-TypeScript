@@ -29,4 +29,5 @@ export interface IMessage {
   }[];
 
   activeUserChat: string | null;
+  hasMore: boolean;
 }

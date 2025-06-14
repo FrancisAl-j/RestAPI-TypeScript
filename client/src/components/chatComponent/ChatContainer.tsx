@@ -26,7 +26,7 @@ const ChatContainer = () => {
   useEffect(() => {
     const init = async () => {
       if (currUser) {
-        await dispatch(GetMessages({ id: currUser._id }));
+        await dispatch(GetMessages({ id: currUser._id, page: 1, limit: 20 }));
         await dispatch(UnreadMessages());
       }
     };

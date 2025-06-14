@@ -17,7 +17,11 @@ const MobileBody = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.user);
   const { messages, isLoading } = useAppSelector((state) => state.message);
-  const [loading] = useState(true);
+
+  // Variables needed for Lazy Loading of older chats
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isFetchingOlder, setIsFetchingOlder] = useState(false);
 
   // The code below will allow the message to scroll from bottom to top
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
@@ -34,6 +38,19 @@ const MobileBody = () => {
       dispatch(LiveMessage());
     }
   }, [dispatch, user]);
+
+  // Scroll Detection
+  const handleScroll = () => {
+    const container = chatContainerRef.current;
+    if (!container || isFetchingOlder || !hasMore) return;
+
+    if (container.scrollTop === 0) {
+      setIsFetchingOlder(true);
+    }
+
+    try {
+    } catch (error) {}
+  };
 
   return (
     <main

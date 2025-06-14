@@ -90,6 +90,10 @@ export const getUsers = async (req: CustomRequest, res: Response) => {
 // Fetch message
 export const getMessages = async (req: CustomRequest, res: Response) => {
   const { id } = req.params;
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 20;
+
+  const skip = (page - 1) * limit;
   try {
     const user = await User.findById(req.user._id);
     if (!user) {
@@ -108,7 +112,27 @@ export const getMessages = async (req: CustomRequest, res: Response) => {
           receiverId: user._id,
         },
       ],
-    }).sort({ createdAt: 1 });
+    })
+      .sort({ createdAt: -1 }) // Sort the data from latest to oldest
+      .skip(skip) // skip the viewed messages
+      .limit(limit); // Limiting the data fetch by user
+
+    // Gets the total messages of the sender and receiver
+    const totalMessages = await Message.countDocuments({
+      $or: [
+        {
+          senderId: user._id,
+          receiverId: id,
+        },
+        {
+          senderId: id,
+          receiverId: user._id,
+        },
+      ],
+    });
+
+    // Checks if there is still more messages
+    const hasMore: boolean = skip + messages.length < totalMessages;
 
     // Update the isRead here if the user fetch the messages
     messages.forEach(async (message) => {
@@ -117,7 +141,7 @@ export const getMessages = async (req: CustomRequest, res: Response) => {
         await message.save();
       }
     });
-    res.status(200).json(messages);
+    res.status(200).json({ messages, hasMore });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });

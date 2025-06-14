@@ -34,3 +34,15 @@ go to file vite.config.ts and read the comment
 ## Debouncing
 
 - What is debouncing? It is a technique use to prevent the search from calling API from the server every key press
+
+## createAsyncThunk
+
+What is it?
+
+Why do we use it?
+
+What problem does it solve?
+
+How does it work?
+
+-

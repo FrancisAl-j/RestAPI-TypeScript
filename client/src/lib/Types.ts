@@ -1,5 +1,3 @@
-import type { Socket } from "socket.io-client";
-
 export type User = {
   _id: string;
   name: string;
@@ -29,7 +27,15 @@ export type UpdateUserType = {
 export type MessageType = {
   sendMessage: ({ message, receiverId, image }: IMessageData) => void;
   getUsers: (query: string) => void;
-  getMessages: ({ id }: { id: string }) => void;
+  getMessages: ({
+    id,
+    page,
+    limit,
+  }: {
+    id: string;
+    page: number;
+    limit: number;
+  }) => Promise<GetMessageResponse>;
   getUnreadMessages: () => void;
 };
 
@@ -62,4 +68,17 @@ export interface IMessageData {
   message: string;
   receiverId: string;
   image: string;
+}
+
+export interface GetMessageResponse {
+  data: {
+    messages: {
+      message: string;
+      receiverId: string;
+      senderId: string;
+      createdAt: Date;
+      updatedAt: Date;
+    }[];
+    hasMore: boolean;
+  };
 }

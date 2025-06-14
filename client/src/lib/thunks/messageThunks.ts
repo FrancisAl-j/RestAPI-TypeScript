@@ -15,13 +15,9 @@ export const SendMessage = createAsyncThunk(
   "message/create",
   async (
     { message, receiverId, image }: IMessageData,
-    { rejectWithValue, getState, dispatch }
+    { rejectWithValue, dispatch }
   ) => {
     try {
-      const userState = getState() as { user: UserState };
-      const currState = getState() as { message: IMessage };
-      const { user } = userState.user;
-      const { currUser } = currState.message;
       const newMessage = await messageAPI.sendMessage({
         message,
         receiverId,
@@ -46,11 +42,15 @@ export const SendMessage = createAsyncThunk(
 
 export const GetMessages = createAsyncThunk(
   "message/get-messages",
-  async ({ id }: { id: string }, { rejectWithValue }) => {
+  async (
+    { id, page, limit }: { id: string; page: number; limit: number },
+    { rejectWithValue }
+  ) => {
     try {
-      const messages = await messageAPI.getMessages({ id });
+      const res = await messageAPI.getMessages({ id, page, limit });
 
-      return messages;
+      const { messages, hasMore } = res.data;
+      return { messages, hasMore };
     } catch (error) {
       if (axios.isAxiosError(error)) {
         return rejectWithValue(

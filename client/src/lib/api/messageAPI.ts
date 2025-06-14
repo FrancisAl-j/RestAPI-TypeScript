@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { IMessageData, MessageType } from "../Types";
+import type { GetMessageResponse, IMessageData, MessageType } from "../Types";
 
 const baseURL: string = "http://localhost:3000";
 
@@ -26,17 +26,29 @@ export const messageAPI: MessageType = {
     }
   },
 
-  getMessages: async ({ id }: { id: string }) => {
+  getMessages: async ({
+    id,
+    page,
+    limit,
+  }: {
+    id: string;
+    page: number;
+    limit: number;
+  }): Promise<GetMessageResponse> => {
     try {
       const res = await axios.get(`${baseURL}/api/message/get-messages/${id}`, {
+        params: { page, limit },
         withCredentials: true,
       });
 
-      return res.data;
+      return res;
     } catch (error) {
       if (error instanceof Error) {
         throw error.message;
-      } else console.log("Unknonw error has occured.");
+      } else {
+        console.log("Unknonw error has occured.");
+        throw new Error("asdasd");
+      }
     }
   },
 
