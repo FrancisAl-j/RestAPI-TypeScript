@@ -5,6 +5,7 @@ import {
   Routes,
   Route,
   Navigate,
+  matchPath,
 } from "react-router-dom";
 import Home from "./pages/Home";
 import Signin from "./pages/Signin";
@@ -22,12 +23,16 @@ import ChatContainer from "./components/chatComponent/ChatContainer";
 import Profile from "./pages/Profile";
 import UserMenu from "./assets/usermenu.svg";
 import MobileContainer from "./components/mobileChat/MobileContainer";
+import { useLocation } from "react-router-dom";
 
 const App = () => {
   const dispatch = useAppDispatch();
   const { user, isChecking } = useAppSelector((state) => state.user);
   const { currUser } = useAppSelector((state) => state.message);
   const [isShow, setIsShow] = useState(false);
+
+  const location = useLocation();
+  const isMobileRoute = !!matchPath("/user/:id", location.pathname);
 
   useEffect(() => {
     if (user) {
@@ -57,9 +62,9 @@ const App = () => {
   };
 
   return (
-    <Router>
+    <>
       <div className="w-full relative">
-        {currUser && user && <ChatContainer />}
+        {!isMobileRoute && currUser && user && <ChatContainer />}
         <Nav handleUserMenu={handleUserMenu} />
         {!isShow && user && (
           <div
@@ -101,7 +106,7 @@ const App = () => {
           </main>
         </div>
       </div>
-    </Router>
+    </>
   );
 };
 
