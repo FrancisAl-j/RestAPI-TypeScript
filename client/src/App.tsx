@@ -1,12 +1,6 @@
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import Nav from "./components/Nav";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-  matchPath,
-} from "react-router-dom";
+import { Routes, Route, Navigate, matchPath } from "react-router-dom";
 import Home from "./pages/Home";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
@@ -19,20 +13,32 @@ import {
   LiveUnreadMessages,
   UnreadMessages,
 } from "./lib/thunks/messageThunks";
-import ChatContainer from "./components/chatComponent/ChatContainer";
+//import ChatContainer from "./components/chatComponent/ChatContainer";
 import Profile from "./pages/Profile";
 import UserMenu from "./assets/usermenu.svg";
-import MobileContainer from "./components/mobileChat/MobileContainer";
+//import MobileContainer from "./components/mobileChat/MobileContainer";
 import { useLocation } from "react-router-dom";
 
+const ChatContainer = lazy(
+  () => import("./components/chatComponent/ChatContainer")
+);
+
+const MobileContainer = lazy(
+  () => import("./components/mobileChat/MobileContainer")
+);
 const App = () => {
   const dispatch = useAppDispatch();
   const { user, isChecking } = useAppSelector((state) => state.user);
   const { currUser } = useAppSelector((state) => state.message);
   const [isShow, setIsShow] = useState(false);
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
   const location = useLocation();
   const isMobileRoute = !!matchPath("/user/:id", location.pathname);
+
+  window.addEventListener("resize", () => {
+    setInnerWidth(window.innerWidth);
+  });
 
   useEffect(() => {
     if (user) {
